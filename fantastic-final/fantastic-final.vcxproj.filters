@@ -7,8 +7,12 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="dino.cpp" />
-    <ClCompile Include="obstacle.cpp" />
+    <ClCompile Include="src\dino.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\obstacle.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -19,8 +23,12 @@
     <ClInclude Include="src\ofApp.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="dino.h" />
-    <ClInclude Include="obstacle.h" />
+    <ClInclude Include="src\dino.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\obstacle.h">
+      <Filter>src</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />

@@ -180,14 +180,14 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dino.cpp" />
-    <ClCompile Include="obstacle.cpp" />
+    <ClCompile Include="src\dino.cpp" />
+    <ClCompile Include="src\obstacle.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dino.h" />
-    <ClInclude Include="obstacle.h" />
+    <ClInclude Include="src\dino.h" />
+    <ClInclude Include="src\obstacle.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,24 @@
 #include "ofApp.h"
 
+void ofApp::draw_dino() {
+	ofSetColor(dino_.get_dino_color());
+	ofDrawRectangle(dino_.get_dino_hitbox());
+}
+
+void ofApp::draw_obstacles() {
+
+}
+
+void ofApp::reset() {
+	dino_ = dino();
+	obstacles_.clear();
+	current_state_ = RUNNING;
+}
+
 //--------------------------------------------------------------
 void ofApp::setup(){
-
+	ofSetWindowTitle("Dino");
+	srand(static_cast<unsigned>(time(0)));
 }
 
 //--------------------------------------------------------------
@@ -12,8 +28,7 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw() { 
-	ofSetColor(0, 100, 0);
-	ofDrawRectangle(0, 0, 100, 100);
+	draw_dino();
 }
 
 //--------------------------------------------------------------
@@ -23,7 +38,7 @@ void ofApp::keyPressed(int key){
 		return;
     } else if (key == ' ') {
         // JUMP
-
+		dino_.jump();
 		return;
 	}
 

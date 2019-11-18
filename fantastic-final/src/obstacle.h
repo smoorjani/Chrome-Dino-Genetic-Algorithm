@@ -1,7 +1,6 @@
 #pragma once
 
-constexpr int DEFAULT_OBSTACLE_WIDTH = 40;
-constexpr int DEFAULT_OBSTACLE_HEIGHT = 40;
+#include "ofMain.h"
 
 class obstacle {
    private:
@@ -9,6 +8,12 @@ class obstacle {
 	   int obstacle_y;
 	   int obstacle_width;
 	   int obstacle_height;
+
+	   ofVec2f window_dims;
+	   static const float obstacle_proportion_scalar;
+
+	   ofRectangle obstacle_hitbox;
+	   ofColor obstacle_color;
 
    public:
        obstacle(int x, int y);
