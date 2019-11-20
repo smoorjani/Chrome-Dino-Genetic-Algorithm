@@ -1,15 +1,18 @@
 #pragma once
 #include "obstacle.h"
 
-constexpr int DEFAULT_START_X = 40;
-constexpr int DEFAULT_START_Y = 400;
+constexpr float DEFAULT_START_X = 40;
+constexpr float DEFAULT_START_Y = 400;
+constexpr float GRAVITY = 0.5;
+constexpr float JUMP_VELOCITY = 13;
 
 class dino {
 	private:
-		int dino_x;
-		int dino_y;
-		int dino_width;
-		int dino_height;
+		float dino_x;
+		float dino_y;
+		float dino_velocity_y;
+		float dino_width;
+		float dino_height;
 
 		bool is_jumping;
 
@@ -21,14 +24,17 @@ class dino {
 
 	public:
 		dino();
-		dino(int x, int y, int width, int height);
+		dino(float x, float y, float width, float height);
 
-		int get_dino_x() const;
-		int get_dino_y() const;
-		int get_dino_width() const;
-		int get_dino_height() const;
+		float get_dino_x() const;
+		float get_dino_y() const;
+		float get_dino_width() const;
+		float get_dino_height() const;
 
-		bool is_jumping();
+		float get_velocity_y() const;
+		void set_velocity_y(float y_velocity);
+
+		bool get_is_jumping() const;
 		void set_is_jumping(bool jumping);
 
 		friend bool operator==(dino &lhs, obstacle &rhs);
@@ -38,4 +44,6 @@ class dino {
 		ofColor get_dino_color();
 
 		void jump();
+		void update_dino_position(float new_x, float new_y);
+		void update();
 };

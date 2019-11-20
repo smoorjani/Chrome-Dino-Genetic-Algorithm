@@ -18,7 +18,7 @@ dino::dino() {
 	dino_color.set(0,255,0);
 }
 
-dino::dino(int x, int y, int width, int height) {
+dino::dino(float x, float y, float width, float height) {
 	dino_x = x;
 	dino_y = y;
 
@@ -30,23 +30,31 @@ dino::dino(int x, int y, int width, int height) {
 	dino_color.set(0, 255, 0);
 }
 
-int dino::get_dino_x() const {
+float dino::get_dino_x() const {
 	return dino_x;
 }
 
-int dino::get_dino_y() const {
+float dino::get_dino_y() const {
 	return dino_y;
 }
 
-int dino::get_dino_width() const {
+float dino::get_dino_width() const {
 	return dino_width;
 }
 
-int dino::get_dino_height() const {
+float dino::get_dino_height() const {
 	return dino_height;
 }
 
-bool dino::is_jumping() {
+float dino::get_velocity_y() const {
+	return dino_velocity_y;
+}
+
+void dino::set_velocity_y(float y_velocity) {
+	this->dino_velocity_y = y_velocity;
+}
+
+bool dino::get_is_jumping() const {
 	return is_jumping;
 }
 
@@ -77,5 +85,28 @@ ofColor dino::get_dino_color() {
 }
 
 void dino::jump() {
+	if (!this->is_jumping) {
+		this->is_jumping = true;
+		dino_velocity_y = -JUMP_VELOCITY;
+	}
+	else {
+		this->is_jumping = false;
+	}
+}
 
+void dino::update_dino_position(float new_x, float new_y) {
+	this->dino_x = new_x;
+	this->dino_y = new_y;
+	dino_hitbox.setPosition(dino_x, dino_y);
+}
+
+void dino::update() {
+	if (dino_y + dino_velocity_y >= DEFAULT_START_Y) {
+		update_dino_position(dino_x, DEFAULT_START_Y);
+		set_is_jumping(false);
+	}
+	else {
+		update_dino_position(dino_x, dino_y + dino_velocity_y);
+	}
+	dino_velocity_y += GRAVITY;
 }

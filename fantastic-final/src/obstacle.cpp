@@ -1,8 +1,9 @@
 #include "obstacle.h"
 
-const float obstacle::obstacle_proportion_scalar = 0.1;
+const float obstacle::obstacle_proportion_scalar = 0.05;
+constexpr int SCREEN_OFFSET = 5000;
 
-obstacle::obstacle(int x, int y) {
+obstacle::obstacle(float x, float y) {
 	obstacle_x = x;
 	obstacle_y = y;
 
@@ -18,7 +19,7 @@ obstacle::obstacle(int x, int y) {
 	obstacle_color.set(255,0,0);
 }
 
-obstacle::obstacle(int x, int y, int width, int height) {
+obstacle::obstacle(float x, float y, float width, float height) {
     obstacle_x = x;
     obstacle_y = y;
 
@@ -30,18 +31,49 @@ obstacle::obstacle(int x, int y, int width, int height) {
 	obstacle_color.set(255, 0, 0);
 }
 
-int obstacle::get_obstacle_x() const {
+float obstacle::get_obstacle_x() const {
 	return obstacle_x;
 }
 
-int obstacle::get_obstacle_y() const {
+float obstacle::get_obstacle_y() const {
 	return obstacle_y;
 }
 
-int obstacle::get_obstacle_width() const {
+float obstacle::get_obstacle_width() const {
 	return obstacle_width;
 }
 
-int obstacle::get_obstacle_height() const {
+float obstacle::get_obstacle_height() const {
 	return obstacle_height;
+}
+
+float obstacle::get_velocity_x() const {
+	return obstacle_x_velocity;
+}
+
+void obstacle::set_velocity_x(float x_velocity) {
+	this->obstacle_x_velocity = x_velocity;
+}
+
+ofRectangle obstacle::get_obstacle_hitbox() {
+	return obstacle_hitbox;
+}
+
+ofColor obstacle::get_obstacle_color() {
+	return obstacle_color;
+}
+
+void obstacle::update_obstacle_position(float new_x, float new_y) {
+	this->obstacle_x = new_x;
+	this->obstacle_y = new_y;
+	obstacle_hitbox.setPosition(obstacle_x, obstacle_y);
+}
+
+void obstacle::update() {
+	if (obstacle_x < 0) {
+		update_obstacle_position(ofGetWindowWidth() + (rand() % SCREEN_OFFSET), obstacle_y);
+	}
+	else {
+		update_obstacle_position(obstacle_x - OBSTACLE_VELOCITY, obstacle_y);
+	}
 }

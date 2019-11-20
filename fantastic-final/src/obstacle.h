@@ -2,12 +2,17 @@
 
 #include "ofMain.h"
 
+constexpr float OBSTACLE_VELOCITY = 5;
+constexpr float SPEED_FACTOR = 0.25;
+constexpr int MAX_NUMBER_OF_OBSTACLES = 5;
+
 class obstacle {
    private:
-	   int obstacle_x;
-	   int obstacle_y;
-	   int obstacle_width;
-	   int obstacle_height;
+	   float obstacle_x;
+	   float obstacle_y;
+	   float obstacle_x_velocity;
+	   float obstacle_width;
+	   float obstacle_height;
 
 	   ofVec2f window_dims;
 	   static const float obstacle_proportion_scalar;
@@ -16,11 +21,20 @@ class obstacle {
 	   ofColor obstacle_color;
 
    public:
-       obstacle(int x, int y);
-	   obstacle(int x, int y, int width, int height);
+       obstacle(float x, float y);
+	   obstacle(float x, float y, float width, float height);
 
-	   int get_obstacle_x() const;
-       int get_obstacle_y() const;
-       int get_obstacle_width() const;
-       int get_obstacle_height() const;
+	   float get_obstacle_x() const;
+	   float get_obstacle_y() const;
+	   float get_obstacle_width() const;
+	   float get_obstacle_height() const;
+
+	   float get_velocity_x() const;
+	   void set_velocity_x(float x_velocity);
+
+	   ofRectangle get_obstacle_hitbox();
+	   ofColor get_obstacle_color();
+
+	   void update_obstacle_position(float new_x, float new_y);
+	   void update();
 };
