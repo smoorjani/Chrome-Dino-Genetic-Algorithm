@@ -37,8 +37,15 @@ class dino {
 		bool get_is_jumping() const;
 		void set_is_jumping(bool jumping);
 
-		friend bool operator==(dino &lhs, obstacle &rhs);
-		friend bool operator!=(dino& lhs, obstacle& rhs);
+		bool operator==(obstacle& rhs) {
+			return (get_dino_x() < rhs.get_obstacle_x() + rhs.get_obstacle_width() &&
+					get_dino_x() + get_dino_width() > rhs.get_obstacle_x() &&
+					get_dino_y() < rhs.get_obstacle_y() + rhs.get_obstacle_height() &&
+					get_dino_y() + get_dino_height() > rhs.get_obstacle_y());
+		}
+		bool operator!=(obstacle& rhs) {
+			return !(*this == rhs);
+		}
 
 		ofRectangle get_dino_hitbox();
 		ofColor get_dino_color();

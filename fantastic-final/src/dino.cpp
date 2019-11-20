@@ -62,20 +62,6 @@ void dino::set_is_jumping(bool jumping) {
 	this->is_jumping = jumping;
 }
 
-bool operator==(const dino& lhs, const obstacle& rhs) {
-	if (lhs.get_dino_x() < rhs.get_obstacle_x() + rhs.get_obstacle_width() &&
-		lhs.get_dino_x() + lhs.get_dino_width() > rhs.get_obstacle_x() &&
-		lhs.get_dino_y() < rhs.get_obstacle_y() + rhs.get_obstacle_height() &&
-		lhs.get_dino_y() + lhs.get_dino_height() > rhs.get_obstacle_y()) {
-		return true;
-	}
-	return false;
-}
-
-bool operator!=(const dino& lhs, const obstacle& rhs) {
-	return !(lhs == rhs);
-}
-
 ofRectangle dino::get_dino_hitbox() {
 	return dino_hitbox;
 }

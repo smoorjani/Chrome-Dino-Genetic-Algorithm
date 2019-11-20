@@ -33,15 +33,16 @@ void ofApp::setup(){
 void ofApp::update(){
 	if (current_state_ == RUNNING) {
 		if (dino_.get_is_jumping() && dino_.get_dino_y() <= DEFAULT_START_Y) {
-			std::cout << "jumping " << dino_.get_dino_y() << "\n";
 			dino_.update();
 		}
-
 		for (auto& obstacle : obstacles_) {
 			obstacle.update();
+
+			if (dino_ == obstacle) {
+				std::cout << "dead" << std::endl;
+			}
 		}
 	}
-	
 }
 
 //--------------------------------------------------------------
@@ -52,26 +53,31 @@ void ofApp::draw() {
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key){ 
-	if (key == OF_KEY_F12) {
-        ofToggleFullscreen();
-		return;
-    } else if (key == ' ') {
-        // JUMP
-		std::cout << "hi" << std::endl;
+	if (key == ' ') {
 		if (!dino_.get_is_jumping()) {
 			dino_.jump();
 		}
-		
 		return;
 	}
 
-	int upper_key = toupper(key);
+	int lower_key = tolower(key);
 	
-	if (key == 'P') {
-		// PAUSE
+	if (key == 'p') {
+		if (current_state_ == PAUSED) {
+			current_state_ = RUNNING;
+		} else {
+			current_state_ = PAUSED;
+		}
 		return;
-    } else if (key == 'R') {
-        // RESET
+    } else if (key == 'r') {
+        reset();
 		return;
 	}
 }
+
+/*
+if (key == OF_KEY_F12) {
+		ofToggleFullscreen();
+		return;
+	} else
+*/
