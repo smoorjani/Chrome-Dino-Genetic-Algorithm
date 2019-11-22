@@ -6,6 +6,7 @@ constexpr int SCREEN_OFFSET = 5000;
 obstacle::obstacle(float x, float y) {
 	obstacle_x = x;
 	obstacle_y = y;
+	obstacle_x_velocity = OBSTACLE_VELOCITY;
 
 	int window_width = ofGetWindowWidth();
 	int window_height = ofGetWindowHeight();
@@ -93,7 +94,7 @@ void obstacle::update() {
 		update_obstacle_position(ofGetWindowWidth() + (rand() % SCREEN_OFFSET), obstacle_y);
 	}
 	else {
-		update_obstacle_position(obstacle_x - OBSTACLE_VELOCITY, obstacle_y);
+		update_obstacle_position(obstacle_x - obstacle_x_velocity, obstacle_y);
 	}
 	obstacle_x_velocity += SPEED_FACTOR;
 }

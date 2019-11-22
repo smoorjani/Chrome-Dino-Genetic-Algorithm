@@ -4,7 +4,7 @@
 constexpr float DEFAULT_START_X = 40;
 constexpr float DEFAULT_START_Y = 400;
 constexpr float GRAVITY = 0.5;
-constexpr float JUMP_VELOCITY = 15;
+constexpr float JUMP_VELOCITY = 13;
 
 class dino {
 	private:

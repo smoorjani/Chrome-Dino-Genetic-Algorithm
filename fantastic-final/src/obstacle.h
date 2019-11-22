@@ -3,7 +3,7 @@
 #include "ofMain.h"
 
 constexpr float OBSTACLE_VELOCITY = 5;
-constexpr float SPEED_FACTOR = 0.25;
+constexpr float SPEED_FACTOR = 0.00025;
 constexpr int MAX_NUMBER_OF_OBSTACLES = 5;
 
 class obstacle {
