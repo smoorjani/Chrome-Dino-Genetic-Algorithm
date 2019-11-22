@@ -15,6 +15,9 @@ obstacle::obstacle(float x, float y) {
 	obstacle_height = obstacle_proportion_scalar * window_height;
 	obstacle_hitbox.setSize(obstacle_width, obstacle_height);
 	obstacle_hitbox.setPosition(obstacle_x, obstacle_y);
+
+	std::string file_path = "cactus.png";
+	setup_image(file_path);
 	
 	obstacle_color.set(255,0,0);
 }
@@ -61,6 +64,24 @@ ofRectangle obstacle::get_obstacle_hitbox() {
 
 ofColor obstacle::get_obstacle_color() {
 	return obstacle_color;
+}
+
+ofImage obstacle::get_obstacle_image() {
+	return obstacle_image;
+}
+
+void obstacle::set_obstacle_image(ofImage& img) {
+	this->obstacle_image = img;
+	obstacle_width = obstacle_image.getWidth();
+	obstacle_height = obstacle_image.getHeight();
+	obstacle_hitbox.setSize(obstacle_width, obstacle_height);
+}
+
+void obstacle::setup_image(std::string& filepath) {
+	obstacle_image.loadImage(filepath);
+	obstacle_width = obstacle_image.getWidth();
+	obstacle_height = obstacle_image.getHeight();
+	obstacle_hitbox.setSize(obstacle_width, obstacle_height);
 }
 
 void obstacle::update_obstacle_position(float new_x, float new_y) {

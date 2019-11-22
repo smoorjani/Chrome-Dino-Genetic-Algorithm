@@ -17,6 +17,7 @@ class obstacle {
 	   ofVec2f window_dims;
 	   static const float obstacle_proportion_scalar;
 
+	   ofImage obstacle_image;
 	   ofRectangle obstacle_hitbox;
 	   ofColor obstacle_color;
 
@@ -34,6 +35,10 @@ class obstacle {
 
 	   ofRectangle get_obstacle_hitbox();
 	   ofColor get_obstacle_color();
+
+	   ofImage get_obstacle_image();
+	   void set_obstacle_image(ofImage& img);
+	   void setup_image(std::string& filepath);
 
 	   void update_obstacle_position(float new_x, float new_y);
 	   void update();

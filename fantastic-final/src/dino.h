@@ -4,7 +4,7 @@
 constexpr float DEFAULT_START_X = 40;
 constexpr float DEFAULT_START_Y = 400;
 constexpr float GRAVITY = 0.5;
-constexpr float JUMP_VELOCITY = 13;
+constexpr float JUMP_VELOCITY = 15;
 
 class dino {
 	private:
@@ -49,9 +49,9 @@ class dino {
 
 		ofRectangle get_dino_hitbox();
 		ofColor get_dino_color();
+		
 		ofImage get_dino_image();
 		void set_dino_image(ofImage &img);
-
 		void setup_image(std::string &filepath);
 
 		void jump();

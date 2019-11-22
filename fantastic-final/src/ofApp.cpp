@@ -6,8 +6,7 @@ void ofApp::draw_dino() {
 
 void ofApp::draw_obstacles() {
 	for (auto& obstacle : obstacles_) {
-		ofSetColor(obstacle.get_obstacle_color());
-		ofDrawRectangle(obstacle.get_obstacle_hitbox());
+		obstacle.get_obstacle_image().draw(obstacle.get_obstacle_x(), obstacle.get_obstacle_y());
 	}
 }
 
@@ -34,7 +33,7 @@ void ofApp::setup(){
 
 	for (int i = 0; i < MAX_NUMBER_OF_OBSTACLES; i++) {
 		// CHANGE CONSTANT TO WORK WITH SCREEN
-		obstacles_.push_back(obstacle(ofGetWindowWidth(),DEFAULT_START_Y + 40));
+		obstacles_.push_back(obstacle(ofGetWindowWidth(),DEFAULT_START_Y + 115));
 	}
 }
 
