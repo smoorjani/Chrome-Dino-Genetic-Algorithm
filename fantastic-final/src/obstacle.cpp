@@ -79,9 +79,7 @@ void obstacle::set_obstacle_image(ofImage& img) {
 
 void obstacle::setup_image(std::string& filepath) {
 	obstacle_image.loadImage(filepath);
-	obstacle_width = obstacle_image.getWidth();
-	obstacle_height = obstacle_image.getHeight();
-	obstacle_hitbox.setSize(obstacle_width, obstacle_height);
+	set_obstacle_image(obstacle_image);
 }
 
 void obstacle::update_obstacle_position(float new_x, float new_y) {

@@ -19,6 +19,8 @@ class ofApp : public ofBaseApp{
 		void draw_dino();
 		void draw_obstacles();
 		void draw_score();
+		void draw_game_over();
+		void draw_game_paused();
 		void reset();
 
 	public:

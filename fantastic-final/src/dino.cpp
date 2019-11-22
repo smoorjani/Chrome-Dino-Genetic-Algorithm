@@ -1,6 +1,7 @@
 #include "dino.h"
 
 const float dino::dino_proportion_scalar = 0.1;
+const float dino::dino_hitbox_shrink_scalar = 0.4;
 
 dino::dino() {
 	dino_x = DEFAULT_START_X;
@@ -64,16 +65,15 @@ ofImage dino::get_dino_image() {
 
 void dino::set_dino_image(ofImage &img) {
 	this->dino_image = img;
-	dino_width = dino_image.getWidth();
+	dino_width = dino_image.getWidth() * dino_hitbox_shrink_scalar;
 	dino_height = dino_image.getHeight();
 	dino_hitbox.setSize(dino_width, dino_height);
+	dino_hitbox.setPosition(dino_x + (2 * dino_width * dino_hitbox_shrink_scalar), dino_y);
 }
 
-void dino::setup_image(std::string &filepath) {
-	dino_image.loadImage(filepath);
-	dino_width = dino_image.getWidth();
-	dino_height = dino_image.getHeight();
-	dino_hitbox.setSize(dino_width, dino_height);
+void dino::setup_image(std::string &file_path) {
+	dino_image.loadImage(file_path);
+	set_dino_image(dino_image);
 }
 
 void dino::jump() {
@@ -89,7 +89,7 @@ void dino::jump() {
 void dino::update_dino_position(float new_x, float new_y) {
 	this->dino_x = new_x;
 	this->dino_y = new_y;
-	dino_hitbox.setPosition(dino_x, dino_y);
+	dino_hitbox.setPosition(dino_x + (2 * dino_width * dino_hitbox_shrink_scalar), dino_y);
 }
 
 void dino::update() {

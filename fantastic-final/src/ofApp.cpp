@@ -2,13 +2,30 @@
 
 void ofApp::draw_dino() {
 	dino_.get_dino_image().draw(dino_.get_dino_x(), dino_.get_dino_y());
+	ofSetColor(dino_.get_dino_color());
+	ofDrawRectangle(dino_.get_dino_hitbox());
 }
 
 void ofApp::draw_obstacles() {
-	for (auto& obstacle : obstacles_) {
+	for (auto& obstacle : obstacles_) {	
 		obstacle.get_obstacle_image().draw(obstacle.get_obstacle_x(), obstacle.get_obstacle_y());
 	}
 }
+
+void ofApp::draw_game_over() {
+	string lose_message = "You Lost! Final Score: " + std::to_string(int(score));
+	ofSetColor(0, 0, 0);
+	ofDrawBitmapString(lose_message, ofGetWindowWidth() / 2,
+		ofGetWindowHeight() / 2);
+}
+
+void ofApp::draw_game_paused() {
+	string pause_message = "P to Unpause!";
+	ofSetColor(0, 0, 0);
+	ofDrawBitmapString(pause_message, ofGetWindowWidth() / 2,
+		ofGetWindowHeight() / 2);
+}
+
 
 void ofApp::draw_score() {
 	string score_message = "Score: " + std::to_string(int(score));
@@ -21,7 +38,6 @@ void ofApp::reset() {
 	setup();
 }
 
-//--------------------------------------------------------------
 void ofApp::setup(){
 	std::string file_path = "big_chrome_dino.png";;
 	dino_.setup_image(file_path);
@@ -37,7 +53,6 @@ void ofApp::setup(){
 	}
 }
 
-//--------------------------------------------------------------
 void ofApp::update(){
 	if (current_state_ == RUNNING) {
 		score += POINTS_PER_FRAME;
@@ -49,19 +64,24 @@ void ofApp::update(){
 
 			if (dino_ == obstacle) {
 				std::cout << "dead" << std::endl;
+				current_state_ = FINISHED;
 			}
 		}
 	}
 }
 
-//--------------------------------------------------------------
 void ofApp::draw() { 
+	if (current_state_ == FINISHED) {
+		draw_game_over();
+	}
+	else if (current_state_ == PAUSED) {
+		draw_game_paused();
+	}
 	draw_dino();
 	draw_obstacles();
 	draw_score();
 }
 
-//--------------------------------------------------------------
 void ofApp::keyPressed(int key){ 
 	if (key == ' ') {
 		if (!dino_.get_is_jumping()) {

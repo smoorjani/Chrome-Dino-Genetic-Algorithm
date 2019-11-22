@@ -18,6 +18,7 @@ class dino {
 
 		ofVec2f window_dims;
 		static const float dino_proportion_scalar;
+		static const float dino_hitbox_shrink_scalar;
 
 		ofImage dino_image;
 		ofRectangle dino_hitbox;
@@ -52,7 +53,7 @@ class dino {
 		
 		ofImage get_dino_image();
 		void set_dino_image(ofImage &img);
-		void setup_image(std::string &filepath);
+		void setup_image(std::string &file_path);
 
 		void jump();
 		void update_dino_position(float new_x, float new_y);
