@@ -18,18 +18,6 @@ dino::dino() {
 	dino_color.set(0,255,0);
 }
 
-dino::dino(float x, float y, float width, float height) {
-	dino_x = x;
-	dino_y = y;
-
-	dino_height = height;
-	dino_width = width;
-	dino_hitbox.setSize(dino_width, dino_height);
-	dino_hitbox.setPosition(dino_x, dino_y);
-
-	dino_color.set(0, 255, 0);
-}
-
 float dino::get_dino_x() const {
 	return dino_x;
 }
@@ -68,6 +56,24 @@ ofRectangle dino::get_dino_hitbox() {
 
 ofColor dino::get_dino_color() {
 	return dino_color;
+}
+
+ofImage dino::get_dino_image() {
+	return dino_image;
+}
+
+void dino::set_dino_image(ofImage &img) {
+	this->dino_image = img;
+	dino_width = dino_image.getWidth();
+	dino_height = dino_image.getHeight();
+	dino_hitbox.setSize(dino_width, dino_height);
+}
+
+void dino::setup_image(std::string &filepath) {
+	dino_image.loadImage(filepath);
+	dino_width = dino_image.getWidth();
+	dino_height = dino_image.getHeight();
+	dino_hitbox.setSize(dino_width, dino_height);
 }
 
 void dino::jump() {

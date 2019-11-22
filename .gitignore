@@ -21,6 +21,8 @@
 *.pyc
 .svn/
 *.log
+openGA-1.0.3.zip
+openGA-1.0.3/
 
 # IDE files which should
 # be ignored

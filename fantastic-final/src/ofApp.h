@@ -5,16 +5,20 @@
 #include <vector>
 
 enum GameState { RUNNING = 0, PAUSED, FINISHED };
+constexpr float POINTS_PER_FRAME = 0.25;
 
 class ofApp : public ofBaseApp{
 	private:
 		GameState current_state_ = RUNNING;
 		dino dino_;
+
 		std::vector<obstacle> obstacles_;
 		bool should_update_ = true;
+		float score;
 
 		void draw_dino();
 		void draw_obstacles();
+		void draw_score();
 		void reset();
 
 	public:
