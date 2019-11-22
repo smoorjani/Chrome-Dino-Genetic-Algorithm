@@ -95,4 +95,5 @@ void obstacle::update() {
 	else {
 		update_obstacle_position(obstacle_x - OBSTACLE_VELOCITY, obstacle_y);
 	}
+	obstacle_x_velocity += SPEED_FACTOR;
 }

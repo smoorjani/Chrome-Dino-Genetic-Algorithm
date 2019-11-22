@@ -39,10 +39,10 @@ class dino {
 		void set_is_jumping(bool jumping);
 
 		bool operator==(obstacle& rhs) {
-			return (get_dino_x() < rhs.get_obstacle_x() + rhs.get_obstacle_width() &&
-					get_dino_x() + get_dino_width() > rhs.get_obstacle_x() &&
-					get_dino_y() < rhs.get_obstacle_y() + rhs.get_obstacle_height() &&
-					get_dino_y() + get_dino_height() > rhs.get_obstacle_y());
+			return (dino_hitbox.getX() < rhs.get_obstacle_hitbox().getX() + rhs.get_obstacle_hitbox().getWidth() &&
+					dino_hitbox.getX() + dino_hitbox.getWidth() > rhs.get_obstacle_hitbox().getX() &&
+					dino_hitbox.getY() < rhs.get_obstacle_hitbox().getY() + rhs.get_obstacle_hitbox().getHeight() &&
+					dino_hitbox.getY() + dino_hitbox.getHeight() > rhs.get_obstacle_hitbox().getY());
 		}
 		bool operator!=(obstacle& rhs) {
 			return !(*this == rhs);

@@ -2,13 +2,18 @@
 
 void ofApp::draw_dino() {
 	dino_.get_dino_image().draw(dino_.get_dino_x(), dino_.get_dino_y());
-	ofSetColor(dino_.get_dino_color());
-	ofDrawRectangle(dino_.get_dino_hitbox());
+	
+	// Visualize Dino Hitbox
+	//ofSetColor(dino_.get_dino_color());
+	//ofDrawRectangle(dino_.get_dino_hitbox());
 }
 
 void ofApp::draw_obstacles() {
 	for (auto& obstacle : obstacles_) {	
 		obstacle.get_obstacle_image().draw(obstacle.get_obstacle_x(), obstacle.get_obstacle_y());
+		// Visualize Obstacle Hitbox
+		//ofSetColor(obstacle.get_obstacle_color());
+		//ofDrawRectangle(obstacle.get_obstacle_hitbox());
 	}
 }
 
@@ -92,7 +97,7 @@ void ofApp::keyPressed(int key){
 
 	int lower_key = tolower(key);
 	
-	if (key == 'p') {
+	if (key == 'p' && current_state_ != FINISHED) {
 		if (current_state_ == PAUSED) {
 			current_state_ = RUNNING;
 		} else {
