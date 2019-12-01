@@ -6,6 +6,9 @@ constexpr float dino_hitbox_shrink_scalar = 0.4;
 dino::dino() {
 	dino_x = DEFAULT_START_X;
 	dino_y = DEFAULT_START_Y;
+	dino_velocity_y = 0;
+
+	is_jumping = false;
 
 	int window_width = ofGetWindowWidth();
 	int window_height = ofGetWindowHeight();
@@ -78,11 +81,8 @@ void dino::setup_image(std::string &file_path) {
 
 void dino::jump() {
 	if (!get_is_jumping()) {
-		set_is_jumping(true);
+		this->is_jumping = true;
 		dino_velocity_y = -JUMP_VELOCITY;
-	}
-	else {
-		set_is_jumping(false);
 	}
 }
 
@@ -95,7 +95,7 @@ void dino::update_dino_position(float new_x, float new_y) {
 void dino::update() {
 	if (dino_y + dino_velocity_y > DEFAULT_START_Y) {
 		update_dino_position(dino_x, DEFAULT_START_Y);
-		set_is_jumping(false);
+		this->is_jumping = false;
 	}
 	else {
 		update_dino_position(dino_x, dino_y + dino_velocity_y);

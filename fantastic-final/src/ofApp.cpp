@@ -51,6 +51,7 @@ void ofApp::draw_score() {
 
 void ofApp::reset() {
 	obstacles_.clear();
+	individuals_.clear();
 	setup();
 }
 
@@ -58,7 +59,7 @@ void ofApp::setup(){
 	std::string file_path = "big_chrome_dino.png";
 	fittest_individual_.dino_.setup_image(file_path);
 
-	individuals_.initialize_population(10);
+	individuals_.initialize_population(1);
 
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
 		individuals_.individuals[individual_num].dino_.setup_image(file_path);
@@ -80,10 +81,14 @@ void ofApp::update(){
 		score += POINTS_PER_FRAME;
 
 		for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
-			std::cout << individuals_.get_individuals()[individual_num].should_jump(obstacles_) << std::endl;
-			if (individuals_.get_individuals()[individual_num].should_jump(obstacles_)) {
-				std::cout << "jump" << std::endl;
+			individual temp_individual = individuals_.individuals[individual_num];
+
+			if (temp_individual.should_jump(obstacles_)) {
 				individuals_.individuals[individual_num].dino_.jump();
+			}
+
+			if (temp_individual.dino_.get_is_jumping() && temp_individual.dino_.get_dino_y() <= DEFAULT_START_Y) {
+				individuals_.individuals[individual_num].dino_.update();
 			}
 		}
 
