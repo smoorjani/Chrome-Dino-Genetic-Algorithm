@@ -1,7 +1,7 @@
 #include "dino.h"
 
 const float dino::dino_proportion_scalar = 0.1;
-const float dino::dino_hitbox_shrink_scalar = 0.4;
+constexpr float dino_hitbox_shrink_scalar = 0.4;
 
 dino::dino() {
 	dino_x = DEFAULT_START_X;
@@ -16,7 +16,7 @@ dino::dino() {
 	dino_hitbox.setSize(dino_width, dino_height);
 	dino_hitbox.setPosition(dino_x, dino_y);
 
-	dino_color.set(0,255,0);
+	dino_color.set(155,255,0);
 }
 
 float dino::get_dino_x() const {
@@ -77,12 +77,12 @@ void dino::setup_image(std::string &file_path) {
 }
 
 void dino::jump() {
-	if (!this->is_jumping) {
-		this->is_jumping = true;
+	if (!get_is_jumping()) {
+		set_is_jumping(true);
 		dino_velocity_y = -JUMP_VELOCITY;
 	}
 	else {
-		this->is_jumping = false;
+		set_is_jumping(false);
 	}
 }
 
@@ -93,7 +93,7 @@ void dino::update_dino_position(float new_x, float new_y) {
 }
 
 void dino::update() {
-	if (dino_y + dino_velocity_y >= DEFAULT_START_Y) {
+	if (dino_y + dino_velocity_y > DEFAULT_START_Y) {
 		update_dino_position(dino_x, DEFAULT_START_Y);
 		set_is_jumping(false);
 	}

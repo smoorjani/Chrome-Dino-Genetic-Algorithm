@@ -18,7 +18,6 @@ class dino {
 
 		ofVec2f window_dims;
 		static const float dino_proportion_scalar;
-		static const float dino_hitbox_shrink_scalar;
 
 		ofImage dino_image;
 		ofRectangle dino_hitbox;
@@ -38,6 +37,7 @@ class dino {
 		bool get_is_jumping() const;
 		void set_is_jumping(bool jumping);
 
+		// Not necessary
 		bool operator==(obstacle& rhs) {
 			return (dino_hitbox.getX() < rhs.get_obstacle_hitbox().getX() + rhs.get_obstacle_hitbox().getWidth() &&
 					dino_hitbox.getX() + dino_hitbox.getWidth() > rhs.get_obstacle_hitbox().getX() &&

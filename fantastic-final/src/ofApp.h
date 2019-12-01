@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "dino.h"
+#include "genetics/population.h"
 #include <vector>
 
 enum GameState { RUNNING = 0, PAUSED, FINISHED };
@@ -10,8 +11,9 @@ constexpr float POINTS_PER_FRAME = 0.25;
 class ofApp : public ofBaseApp{
 	private:
 		GameState current_state_ = RUNNING;
-		dino dino_;
+		individual fittest_individual_;
 
+		population individuals_;
 		std::vector<obstacle> obstacles_;
 		bool should_update_ = true;
 		float score;

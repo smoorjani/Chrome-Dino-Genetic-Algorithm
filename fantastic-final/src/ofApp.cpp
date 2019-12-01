@@ -1,11 +1,21 @@
 #include "ofApp.h"
 
 void ofApp::draw_dino() {
-	dino_.get_dino_image().draw(dino_.get_dino_x(), dino_.get_dino_y());
+	fittest_individual_.dino_.get_dino_image().draw(fittest_individual_.dino_.get_dino_x(), fittest_individual_.dino_.get_dino_y());
 	
 	// Visualize Dino Hitbox
-	//ofSetColor(dino_.get_dino_color());
-	//ofDrawRectangle(dino_.get_dino_hitbox());
+	ofSetColor(fittest_individual_.dino_.get_dino_color());
+	ofDrawRectangle(fittest_individual_.dino_.get_dino_hitbox());
+
+	
+	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
+		dino temp_dino = individuals_.individuals[individual_num].dino_;
+		temp_dino.get_dino_image().draw(temp_dino.get_dino_x(), temp_dino.get_dino_y());
+
+		// Visualize Obstacle Hitbox
+		ofSetColor(temp_dino.get_dino_color());
+		ofDrawRectangle(temp_dino.get_dino_hitbox());
+	}
 }
 
 void ofApp::draw_obstacles() {
@@ -13,8 +23,8 @@ void ofApp::draw_obstacles() {
 		obstacle.get_obstacle_image().draw(obstacle.get_obstacle_x(), obstacle.get_obstacle_y());
 
 		// Visualize Obstacle Hitbox
-		//ofSetColor(obstacle.get_obstacle_color());
-		//ofDrawRectangle(obstacle.get_obstacle_hitbox());
+		ofSetColor(obstacle.get_obstacle_color());
+		ofDrawRectangle(obstacle.get_obstacle_hitbox());
 	}
 }
 
@@ -45,8 +55,14 @@ void ofApp::reset() {
 }
 
 void ofApp::setup(){
-	std::string file_path = "big_chrome_dino.png";;
-	dino_.setup_image(file_path);
+	std::string file_path = "big_chrome_dino.png";
+	fittest_individual_.dino_.setup_image(file_path);
+
+	individuals_.initialize_population(10);
+
+	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
+		individuals_.individuals[individual_num].dino_.setup_image(file_path);
+	}
 
 	current_state_ = RUNNING;
 	ofSetWindowTitle("Dino");
@@ -62,13 +78,22 @@ void ofApp::setup(){
 void ofApp::update(){
 	if (current_state_ == RUNNING) {
 		score += POINTS_PER_FRAME;
-		if (dino_.get_is_jumping() && dino_.get_dino_y() <= DEFAULT_START_Y) {
-			dino_.update();
+
+		for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
+			std::cout << individuals_.get_individuals()[individual_num].should_jump(obstacles_) << std::endl;
+			if (individuals_.get_individuals()[individual_num].should_jump(obstacles_)) {
+				std::cout << "jump" << std::endl;
+				individuals_.individuals[individual_num].dino_.jump();
+			}
+		}
+
+		if (fittest_individual_.dino_.get_is_jumping() && fittest_individual_.dino_.get_dino_y() <= DEFAULT_START_Y) {
+			fittest_individual_.dino_.update();
 		}
 		for (auto& obstacle : obstacles_) {
 			obstacle.update();
 
-			if (dino_ == obstacle) {
+			if (fittest_individual_.dino_ == obstacle) {
 				std::cout << "dead" << std::endl;
 				current_state_ = FINISHED;
 			}
@@ -90,8 +115,8 @@ void ofApp::draw() {
 
 void ofApp::keyPressed(int key){ 
 	if (key == ' ') {
-		if (!dino_.get_is_jumping()) {
-			dino_.jump();
+		if (!fittest_individual_.dino_.get_is_jumping()) {
+			fittest_individual_.dino_.jump();
 		}
 		return;
 	}

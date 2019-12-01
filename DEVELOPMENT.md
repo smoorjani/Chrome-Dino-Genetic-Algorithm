@@ -12,3 +12,7 @@
 
  - **11/21/19** Refactored the project to work with images instead of basic rectangles
 
+ - **11/22/19** Fine-tuned game mechanics
+	- Restructured hitboxes to make the game easier to play
+	- Changed a few constants to make gameplay identical to the actual game
+

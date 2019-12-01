@@ -13,6 +13,8 @@
     <ClCompile Include="src\obstacle.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\genetics\individual.cpp" />
+    <ClCompile Include="src\genetics\population.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -29,6 +31,8 @@
     <ClInclude Include="src\obstacle.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\genetics\individual.h" />
+    <ClInclude Include="src\genetics\population.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icon.rc" />
