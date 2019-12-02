@@ -10,6 +10,10 @@ void ofApp::draw_dino() {
 	
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
 		dino temp_dino = individuals_.individuals[individual_num].dino_;
+		if (temp_dino.get_is_dead()) {
+			continue;
+		}
+
 		temp_dino.get_dino_image().draw(temp_dino.get_dino_x(), temp_dino.get_dino_y());
 
 		// Visualize Obstacle Hitbox
@@ -52,6 +56,12 @@ void ofApp::draw_score() {
 void ofApp::reset() {
 	obstacles_.clear();
 	individuals_.clear();
+	fittest_individual_.dino_.reset();
+
+	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
+		individuals_.individuals[individual_num].dino_.reset();
+	}
+
 	setup();
 }
 
@@ -59,7 +69,7 @@ void ofApp::setup(){
 	std::string file_path = "big_chrome_dino.png";
 	fittest_individual_.dino_.setup_image(file_path);
 
-	individuals_.initialize_population(1);
+	individuals_.initialize_population(3);
 
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
 		individuals_.individuals[individual_num].dino_.setup_image(file_path);
@@ -82,6 +92,9 @@ void ofApp::update(){
 
 		for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
 			individual temp_individual = individuals_.individuals[individual_num];
+			if (temp_individual.dino_.get_is_dead()) {
+				continue;
+			}
 
 			if (temp_individual.should_jump(obstacles_)) {
 				individuals_.individuals[individual_num].dino_.jump();
@@ -90,18 +103,32 @@ void ofApp::update(){
 			if (temp_individual.dino_.get_is_jumping() && temp_individual.dino_.get_dino_y() <= DEFAULT_START_Y) {
 				individuals_.individuals[individual_num].dino_.update();
 			}
+
+			for (auto& obstacle : obstacles_) {
+				if (individuals_.individuals[individual_num].dino_.has_collided(obstacle)) {
+					std::cout << "dead bot" << std::endl;
+					individuals_.individuals[individual_num].dino_.set_is_dead(true);
+					// TODO make characteristic to stop player when collides
+				}
+			}
 		}
 
-		if (fittest_individual_.dino_.get_is_jumping() && fittest_individual_.dino_.get_dino_y() <= DEFAULT_START_Y) {
+		if (!fittest_individual_.dino_.get_is_dead() && fittest_individual_.dino_.get_is_jumping() && fittest_individual_.dino_.get_dino_y() <= DEFAULT_START_Y) {
 			fittest_individual_.dino_.update();
 		}
 		for (auto& obstacle : obstacles_) {
 			obstacle.update();
 
-			if (fittest_individual_.dino_ == obstacle) {
+			if (fittest_individual_.dino_.has_collided(obstacle)) {
 				std::cout << "dead" << std::endl;
-				current_state_ = FINISHED;
+				fittest_individual_.dino_.set_is_dead(true);
+				//current_state_ = FINISHED;
 			}
+		}
+
+		if (individuals_.are_all_dead()) {
+			reset();
+			return;
 		}
 	}
 }

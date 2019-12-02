@@ -9,6 +9,7 @@ dino::dino() {
 	dino_velocity_y = 0;
 
 	is_jumping = false;
+	is_dead = false;
 
 	int window_width = ofGetWindowWidth();
 	int window_height = ofGetWindowHeight();
@@ -54,6 +55,14 @@ void dino::set_is_jumping(bool jumping) {
 	this->is_jumping = jumping;
 }
 
+bool dino::get_is_dead() const {
+	return is_dead;
+}
+
+void dino::set_is_dead(bool dead) {
+	this->is_dead = dead;
+}
+
 ofRectangle dino::get_dino_hitbox() {
 	return dino_hitbox;
 }
@@ -64,6 +73,13 @@ ofColor dino::get_dino_color() {
 
 ofImage dino::get_dino_image() {
 	return dino_image;
+}
+
+bool dino::has_collided(obstacle &rhs) {
+	return (dino_hitbox.getX() < rhs.get_obstacle_hitbox().getX() + rhs.get_obstacle_hitbox().getWidth() &&
+		dino_hitbox.getX() + dino_hitbox.getWidth() > rhs.get_obstacle_hitbox().getX() &&
+		dino_hitbox.getY() < rhs.get_obstacle_hitbox().getY() + rhs.get_obstacle_hitbox().getHeight() &&
+		dino_hitbox.getY() + dino_hitbox.getHeight() > rhs.get_obstacle_hitbox().getY());
 }
 
 void dino::set_dino_image(ofImage &img) {
@@ -101,4 +117,13 @@ void dino::update() {
 		update_dino_position(dino_x, dino_y + dino_velocity_y);
 	}
 	dino_velocity_y += GRAVITY;
+}
+
+void dino::reset() {
+	dino_x = DEFAULT_START_X;
+	dino_y = DEFAULT_START_Y;
+	dino_velocity_y = 0;
+
+	is_jumping = false;
+	is_dead = false;
 }

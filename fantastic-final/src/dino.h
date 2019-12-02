@@ -15,6 +15,7 @@ class dino {
 		float dino_height;
 
 		bool is_jumping;
+		bool is_dead;
 
 		ofVec2f window_dims;
 		static const float dino_proportion_scalar;
@@ -36,17 +37,10 @@ class dino {
 
 		bool get_is_jumping() const;
 		void set_is_jumping(bool jumping);
+		bool get_is_dead() const;
+		void set_is_dead(bool dead);
 
-		// Not necessary
-		bool operator==(obstacle& rhs) {
-			return (dino_hitbox.getX() < rhs.get_obstacle_hitbox().getX() + rhs.get_obstacle_hitbox().getWidth() &&
-					dino_hitbox.getX() + dino_hitbox.getWidth() > rhs.get_obstacle_hitbox().getX() &&
-					dino_hitbox.getY() < rhs.get_obstacle_hitbox().getY() + rhs.get_obstacle_hitbox().getHeight() &&
-					dino_hitbox.getY() + dino_hitbox.getHeight() > rhs.get_obstacle_hitbox().getY());
-		}
-		bool operator!=(obstacle& rhs) {
-			return !(*this == rhs);
-		}
+		bool has_collided(obstacle& rhs);
 
 		ofRectangle get_dino_hitbox();
 		ofColor get_dino_color();
@@ -58,4 +52,5 @@ class dino {
 		void jump();
 		void update_dino_position(float new_x, float new_y);
 		void update();
+		void reset();
 };
