@@ -111,6 +111,8 @@ void ofApp::update(){
 					// TODO make characteristic to stop player when collides
 				}
 			}
+			
+			individuals_.individuals[individual_num].increment_score(POINTS_PER_FRAME);
 		}
 
 		if (!fittest_individual_.dino_.get_is_dead() && fittest_individual_.dino_.get_is_jumping() && fittest_individual_.dino_.get_dino_y() <= DEFAULT_START_Y) {
