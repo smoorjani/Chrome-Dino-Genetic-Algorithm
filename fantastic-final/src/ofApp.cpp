@@ -65,11 +65,26 @@ void ofApp::reset() {
 	setup();
 }
 
+void ofApp::generation_reset() {
+	obstacles_.clear();
+	fittest_individual_.dino_.reset();
+
+	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
+		individuals_.individuals[individual_num].dino_.reset();
+	}
+
+	score = 0;
+	for (int i = 0; i < MAX_NUMBER_OF_OBSTACLES; i++) {
+		// CHANGE CONSTANT TO WORK WITH SCREEN
+		obstacles_.push_back(obstacle(ofGetWindowWidth(), DEFAULT_START_Y + 115));
+	}
+}
+
 void ofApp::setup(){
 	std::string file_path = "big_chrome_dino.png";
 	fittest_individual_.dino_.setup_image(file_path);
 
-	individuals_.initialize_population(3);
+	individuals_.initialize_population(5);
 
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
 		individuals_.individuals[individual_num].dino_.setup_image(file_path);
@@ -77,8 +92,10 @@ void ofApp::setup(){
 
 	current_state_ = RUNNING;
 	ofSetWindowTitle("Dino");
+
 	srand(static_cast<unsigned>(time(0)));
 	score = 0;
+	generation = 0;
 
 	for (int i = 0; i < MAX_NUMBER_OF_OBSTACLES; i++) {
 		// CHANGE CONSTANT TO WORK WITH SCREEN
@@ -106,7 +123,7 @@ void ofApp::update(){
 
 			for (auto& obstacle : obstacles_) {
 				if (individuals_.individuals[individual_num].dino_.has_collided(obstacle)) {
-					std::cout << "dead bot" << std::endl;
+					//std::cout << "dead bot" << std::endl;
 					individuals_.individuals[individual_num].dino_.set_is_dead(true);
 					// TODO make characteristic to stop player when collides
 				}
@@ -122,14 +139,38 @@ void ofApp::update(){
 			obstacle.update();
 
 			if (fittest_individual_.dino_.has_collided(obstacle)) {
-				std::cout << "dead" << std::endl;
+				//std::cout << "dead" << std::endl;
 				fittest_individual_.dino_.set_is_dead(true);
 				//current_state_ = FINISHED;
 			}
 		}
 
 		if (individuals_.are_all_dead()) {
-			reset();
+			generation_reset();
+
+			individuals_.selection();
+			individuals_.crossover();
+
+			// CHANGE CONSTANTS HERE
+			if (rand() % 7 < 4) {
+				individuals_.mutation();
+			}
+
+			individuals_.add_fittest_offspring();
+
+			std::cout << "----------------------------------" << std::endl;
+			std::cout << "Generation: " << generation << std::endl;
+
+			for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
+				std::vector<double> genes = individuals_.get_individual(individual_num).get_genes();
+				for (double gene : genes) {
+					std::cout << gene << " ";
+				}
+				std::cout << std::endl;
+			}
+			
+			generation++;
+
 			return;
 		}
 	}

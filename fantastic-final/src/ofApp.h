@@ -16,14 +16,18 @@ class ofApp : public ofBaseApp{
 		population individuals_;
 		std::vector<obstacle> obstacles_;
 		bool should_update_ = true;
+
 		float score;
+		int generation;
 
 		void draw_dino();
 		void draw_obstacles();
 		void draw_score();
 		void draw_game_over();
 		void draw_game_paused();
+
 		void reset();
+		void generation_reset();
 
 	public:
 		void setup();

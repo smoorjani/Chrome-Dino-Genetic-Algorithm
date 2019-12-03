@@ -75,6 +75,36 @@ ofImage dino::get_dino_image() {
 	return dino_image;
 }
 
+int dino::get_nearest_obstacle(std::vector<obstacle> obstacles) {
+	int nearest_index = 0;
+	// changed to depend on obstacle.h
+	int nearest_distance = 5000;
+
+	for (int obstacle_index = 0; obstacle_index < obstacles.size(); obstacle_index++) {
+		if (abs(obstacles[obstacle_index].get_obstacle_x() - get_dino_x()) < nearest_distance) {
+			nearest_distance = int(abs(obstacles[obstacle_index].get_obstacle_x() - get_dino_x()));
+			nearest_index = obstacle_index;
+		}
+	}
+
+	return nearest_index;
+}
+
+int dino::get_second_nearest_obstacle(std::vector<obstacle> obstacles) {
+	int nearest_index = get_nearest_obstacle(obstacles);
+	int second_nearest_index = 0;
+	int nearest_distance = 5000;
+
+	for (int obstacle_index = 0; obstacle_index < obstacles.size(); obstacle_index++) {
+		if (obstacle_index != nearest_index && abs(obstacles[obstacle_index].get_obstacle_x() - get_dino_x()) < nearest_distance) {
+			nearest_distance = int(abs(obstacles[obstacle_index].get_obstacle_x() - get_dino_x()));
+			second_nearest_index = obstacle_index;
+		}
+	}
+
+	return second_nearest_index;
+}
+
 bool dino::has_collided(obstacle &rhs) {
 	return (dino_hitbox.getX() < rhs.get_obstacle_hitbox().getX() + rhs.get_obstacle_hitbox().getWidth() &&
 		dino_hitbox.getX() + dino_hitbox.getWidth() > rhs.get_obstacle_hitbox().getX() &&

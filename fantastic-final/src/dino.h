@@ -1,5 +1,6 @@
 #pragma once
 #include "obstacle.h"
+#include <cmath>
 
 constexpr float DEFAULT_START_X = 40;
 constexpr float DEFAULT_START_Y = 400;
@@ -39,6 +40,9 @@ class dino {
 		void set_is_jumping(bool jumping);
 		bool get_is_dead() const;
 		void set_is_dead(bool dead);
+
+		int get_nearest_obstacle(std::vector<obstacle> obstacles);
+		int get_second_nearest_obstacle(std::vector<obstacle> obstacles);
 
 		bool has_collided(obstacle& rhs);
 
