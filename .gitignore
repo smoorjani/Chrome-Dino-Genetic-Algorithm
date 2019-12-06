@@ -23,6 +23,8 @@
 *.log
 openGA-1.0.3.zip
 openGA-1.0.3/
+matplotlib-cpp-master.zip
+matplotlib-cpp-master/
 
 # IDE files which should
 # be ignored

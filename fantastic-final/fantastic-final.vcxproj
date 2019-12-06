@@ -186,6 +186,9 @@
     <ClCompile Include="src\obstacle.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
+    <ClCompile Include="test\main_test.cpp" />
+    <ClCompile Include="test\dino_test.cpp" />
+    <ClCompile Include="test\obstacle_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\genetics\population.h" />

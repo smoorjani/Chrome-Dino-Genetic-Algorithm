@@ -15,6 +15,9 @@
     </ClCompile>
     <ClCompile Include="src\genetics\individual.cpp" />
     <ClCompile Include="src\genetics\population.cpp" />
+    <ClCompile Include="test\dino_test.cpp" />
+    <ClCompile Include="test\main_test.cpp" />
+    <ClCompile Include="test\obstacle_test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">

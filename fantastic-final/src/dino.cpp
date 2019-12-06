@@ -121,6 +121,7 @@ void dino::set_dino_image(ofImage &img) {
 }
 
 void dino::setup_image(std::string &file_path) {
+	// Maybe add try/catch?
 	dino_image.loadImage(file_path);
 	set_dino_image(dino_image);
 }

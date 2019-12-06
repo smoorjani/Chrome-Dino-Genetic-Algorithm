@@ -42,4 +42,7 @@ class obstacle {
 
 	   void update_obstacle_position(float new_x, float new_y);
 	   void update();
+
+	   void ensure_fair_spread(std::vector<obstacle> &obstacles);
+	   std::vector<int> get_unfair_obstacles(std::vector<obstacle> &obstacles);
 };

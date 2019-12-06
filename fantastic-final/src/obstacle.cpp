@@ -98,3 +98,28 @@ void obstacle::update() {
 	}
 	obstacle_x_velocity += SPEED_FACTOR;
 }
+
+void obstacle::ensure_fair_spread(std::vector<obstacle> &obstacles) {
+	std::vector<int> unfair_obstacle_indexes = get_unfair_obstacles(obstacles);
+
+	while (unfair_obstacle_indexes.size() > 0) {
+
+
+		unfair_obstacle_indexes = get_unfair_obstacles(obstacles);
+	}
+}
+
+std::vector<int> obstacle::get_unfair_obstacles(std::vector<obstacle> &obstacles) {
+	std::vector<int> unfair_obstacle_indexes;
+
+	for (int obstacle_num = 0; obstacle_num < obstacles.size(); obstacle_num++) {
+		if (obstacles[obstacle_num].get_obstacle_x() == this->obstacle_x && obstacles[obstacle_num].get_obstacle_y() == this->obstacle_y) {
+			continue;
+		}
+		else if (abs(obstacles[obstacle_num].get_obstacle_x() - this->obstacle_x) < 25) {
+			unfair_obstacle_indexes.push_back(obstacle_num);
+		}
+	}
+
+	return unfair_obstacle_indexes;
+}
