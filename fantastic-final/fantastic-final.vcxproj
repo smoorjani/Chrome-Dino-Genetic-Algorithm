@@ -180,10 +180,11 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\output\gene_data_writer.cpp" />
     <ClCompile Include="src\genetics\population.cpp" />
     <ClCompile Include="src\genetics\individual.cpp" />
-    <ClCompile Include="src\dino.cpp" />
-    <ClCompile Include="src\obstacle.cpp" />
+    <ClCompile Include="src\game\dino.cpp" />
+    <ClCompile Include="src\game\obstacle.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="test\main_test.cpp" />
@@ -191,10 +192,11 @@
     <ClCompile Include="test\obstacle_test.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\output\gene_data_writer.h" />
     <ClInclude Include="src\genetics\population.h" />
     <ClInclude Include="src\genetics\individual.h" />
-    <ClInclude Include="src\dino.h" />
-    <ClInclude Include="src\obstacle.h" />
+    <ClInclude Include="src\game\dino.h" />
+    <ClInclude Include="src\game\obstacle.h" />
     <ClInclude Include="src\ofApp.h" />
   </ItemGroup>
   <ItemGroup>

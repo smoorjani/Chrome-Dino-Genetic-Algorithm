@@ -4,9 +4,11 @@
 #include <cstdlib>
 #include <vector>
 #include <ostream>
-#include "../dino.h"
+#include "../game/dino.h"
 
-constexpr int GENE_LENGTH = 7;
+constexpr int GENE_LENGTH = 4;
+constexpr double GENE_RANGE = 10.0;
+constexpr double DECISION_TOLERANCE = 0.8;
 
 class individual
 {

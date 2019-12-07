@@ -4,8 +4,7 @@ individual::individual() {
 	std::vector<double> temp_genes(GENE_LENGTH, 0);
 
 	for (int i = 0; i < GENE_LENGTH; i++) {
-		// make sure this creates real numbers from -5 to 5
-		temp_genes[i] = float((rand()) / float(RAND_MAX / 10.0)) - 5;
+		temp_genes[i] = float((rand()) / float(RAND_MAX / GENE_RANGE)) - (GENE_RANGE/2);
 	}
 
 	genes = temp_genes;
@@ -41,11 +40,12 @@ bool individual::should_jump(std::vector<obstacle> obstacles) {
 	// Apply activation function
 	//	- Relu (if positive)
 
+	/*
 	int nearest_obstacle_index = dino_.get_nearest_obstacle(obstacles);
 	int second_nearest_obstacle_index = dino_.get_second_nearest_obstacle(obstacles);
 
-	double nearest_obstacle_velocity = obstacles[nearest_obstacle_index].get_velocity_x();
-	double second_nearest_obstacle_velocity = obstacles[second_nearest_obstacle_index].get_velocity_x();
+	double nearest_obstacle_velocity = abs(obstacles[nearest_obstacle_index].get_velocity_x());
+	double second_nearest_obstacle_velocity = abs(obstacles[second_nearest_obstacle_index].get_velocity_x());
 	int distance_to_nearest_obstacle = abs(obstacles[nearest_obstacle_index].get_obstacle_x() - dino_.get_dino_x());
 	int nearest_obstacle_length = obstacles[nearest_obstacle_index].get_obstacle_width();
 	int distance_to_second_nearest_obstacle = abs(obstacles[second_nearest_obstacle_index].get_obstacle_x() - dino_.get_dino_x());
@@ -56,7 +56,18 @@ bool individual::should_jump(std::vector<obstacle> obstacles) {
 							   genes[4] * nearest_obstacle_length + genes[5] * second_nearest_obstacle_length + 
 							   genes[6];
 
-	return std::max(0.0, computed_gradient);
+	*/
+
+	int nearest_obstacle_index = dino_.get_nearest_obstacle(obstacles);
+
+	double nearest_obstacle_velocity = abs(obstacles[nearest_obstacle_index].get_velocity_x());
+	int distance_to_nearest_obstacle = abs(obstacles[nearest_obstacle_index].get_obstacle_x() - dino_.get_dino_x());
+	int nearest_obstacle_length = obstacles[nearest_obstacle_index].get_obstacle_width();
+
+	double computed_gradient = genes[0] * nearest_obstacle_velocity + genes[1] * distance_to_nearest_obstacle 
+							 + genes[2] * nearest_obstacle_length + genes[3];
+
+	return std::max(0.0, computed_gradient- ((GENE_RANGE/2) * DECISION_TOLERANCE));
 }
 
 individual& individual::operator=(individual* rhs) {

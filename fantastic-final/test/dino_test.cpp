@@ -1,6 +1,6 @@
 #include "catch.hpp"
-#include "../src/dino.h"
-#include "../src/obstacle.h"
+#include "../src/game/dino.h"
+#include "../src/game/obstacle.h"
 
 constexpr int NUMBER_OF_TEST_OBSTACLES = 5;
 constexpr float dino_hitbox_shrink_scalar = 0.4;
@@ -10,7 +10,7 @@ TEST_CASE("Test Get Nearest Obstacle Functions") {
 	std::vector<obstacle> obstacles_;
 
 	for (int obstacle_num = 0; obstacle_num < NUMBER_OF_TEST_OBSTACLES; obstacle_num++) {
-		obstacle temp_ob(obstacle_num * 100,DEFAULT_START_Y);
+		obstacle temp_ob(obstacle_num * 100, DEFAULT_START_Y);
 		obstacles_.push_back(temp_ob);
 	}
 

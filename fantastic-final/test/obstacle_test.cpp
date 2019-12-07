@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../src/obstacle.h"
+#include "../src/game/obstacle.h"
 
 constexpr int NUMBER_OF_TEST_OBSTACLES = 5;
 

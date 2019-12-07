@@ -2,20 +2,24 @@
 
 // TODO break this function up
 void ofApp::draw_dino() {
-	// #####################
-	// TODO implement option for player to play w/ menu
-
 	// Visualize player dino
 	if (is_human_playing) {
-		player_dino_.dino_.get_dino_image().draw(player_dino_.dino_.get_dino_x(), player_dino_.dino_.get_dino_y());
-
-		// Visualize Dino Hitbox
-		if (draw_hitboxes) {
-			ofSetColor(player_dino_.dino_.get_dino_color());
-			ofDrawRectangle(player_dino_.dino_.get_dino_hitbox());
-		}
+		draw_player_dino();
 	}
+	draw_ai_dino();
+}
 
+void ofApp::draw_player_dino() {
+	player_dino_.dino_.get_dino_image().draw(player_dino_.dino_.get_dino_x(), player_dino_.dino_.get_dino_y());
+
+	// Visualize Dino Hitbox
+	if (draw_hitboxes) {
+		ofSetColor(player_dino_.dino_.get_dino_color());
+		ofDrawRectangle(player_dino_.dino_.get_dino_hitbox());
+	}
+}
+
+void ofApp::draw_ai_dino() {
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
 		dino temp_dino = individuals_.individuals[individual_num].dino_;
 		if (temp_dino.get_is_dead()) {
@@ -100,6 +104,7 @@ void ofApp::generation_reset() {
 	score = 0;
 	for (int i = 0; i < MAX_NUMBER_OF_OBSTACLES; i++) {
 		// CHANGE CONSTANT TO WORK WITH SCREEN
+		// TODO: replace 115 with difference in image heights
 		obstacles_.push_back(obstacle(ofGetWindowWidth() + 50, DEFAULT_START_Y + 115));
 	}
 }
@@ -109,7 +114,6 @@ void ofApp::setup(){
 	player_dino_.dino_.setup_image(file_path);
 
 	individuals_.initialize_population(5);
-
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
 		individuals_.individuals[individual_num].dino_.setup_image(file_path);
 	}
@@ -124,10 +128,12 @@ void ofApp::setup(){
 	obstacles_.push_back(obstacle(ofGetWindowWidth(), DEFAULT_START_Y + 110));
 	for (int i = 1; i < MAX_NUMBER_OF_OBSTACLES; i++) {
 		// CHANGE CONSTANT TO WORK WITH SCREEN
-		obstacles_.push_back(obstacle(obstacles_[i-1].get_obstacle_x() + (rand() % 400) + 200, DEFAULT_START_Y + 110));
+		// SCREEN_OFFSET or 400?
+		obstacles_.push_back(obstacle(obstacles_[i-1].get_obstacle_x() + (rand() % SCREEN_OFFSET) + MIN_DIST_BETWEEN_OBSTACLES, DEFAULT_START_Y + 110));
 	}
 }
 
+// breakup this function
 void ofApp::update(){
 	if (current_state_ == RUNNING) {
 		score += POINTS_PER_FRAME;
@@ -180,7 +186,6 @@ void ofApp::update(){
 		}
 
 		if (individuals_.are_all_dead() && !is_human_playing) {
-			// TODO output this data to csv file
 			std::cout << "----------------------------------" << std::endl;
 			std::cout << "Generation: " << generation << std::endl;
 
@@ -192,7 +197,10 @@ void ofApp::update(){
 					std::cout << gene << " ";
 				}
 				std::cout << std::endl;
+
+				gene_data_writer::save_data_to_csv(generation, individual_num, individuals_.get_individual(individual_num).get_fitness_score(), genes);
 			}
+			
 			
 			generation_reset();
 
@@ -263,10 +271,3 @@ void ofApp::keyPressed(int key){
 		reset();
 	}
 }
-
-/*
-if (key == OF_KEY_F12) {
-		ofToggleFullscreen();
-		return;
-	} else
-*/

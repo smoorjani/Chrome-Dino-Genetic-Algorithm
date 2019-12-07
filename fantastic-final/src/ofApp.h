@@ -1,8 +1,10 @@
 #pragma once
 
 #include "ofMain.h"
-#include "dino.h"
+#include "game/dino.h"
+#include "game/obstacle.h"
 #include "genetics/population.h"
+#include "output/gene_data_writer.h"
 #include <vector>
 
 enum GameState { RUNNING = 0, PAUSED, FINISHED, MENU };
@@ -25,6 +27,9 @@ class ofApp : public ofBaseApp{
 		int generation;
 
 		void draw_dino();
+		void draw_player_dino();
+		void draw_ai_dino();
+
 		void draw_obstacles();
 		void draw_score();
 		void draw_game_over();
