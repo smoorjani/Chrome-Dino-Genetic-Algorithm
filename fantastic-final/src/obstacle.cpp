@@ -1,7 +1,7 @@
 #include "obstacle.h"
 
 const float obstacle::obstacle_proportion_scalar = 0.05;
-constexpr int SCREEN_OFFSET = 5000;
+constexpr int SCREEN_OFFSET = 3000;
 
 obstacle::obstacle(float x, float y) {
 	obstacle_x = x;
@@ -89,37 +89,17 @@ void obstacle::update_obstacle_position(float new_x, float new_y) {
 	obstacle_hitbox.setPosition(obstacle_x, obstacle_y);
 }
 
-void obstacle::update() {
+void obstacle::update(float previous_obstacle_x) {
 	if (obstacle_x < 0) {
-		update_obstacle_position(ofGetWindowWidth() + (rand() % SCREEN_OFFSET), obstacle_y);
+		// TODO fix random cacti showing up
+		int new_obstacle_x = previous_obstacle_x + (rand() % SCREEN_OFFSET) + 200;
+		while (new_obstacle_x < ofGetScreenWidth()) {
+			new_obstacle_x = previous_obstacle_x + (rand() % SCREEN_OFFSET) + 200;
+		}
+		update_obstacle_position(new_obstacle_x, obstacle_y);
 	}
 	else {
 		update_obstacle_position(obstacle_x - obstacle_x_velocity, obstacle_y);
 	}
 	obstacle_x_velocity += SPEED_FACTOR;
-}
-
-void obstacle::ensure_fair_spread(std::vector<obstacle> &obstacles) {
-	std::vector<int> unfair_obstacle_indexes = get_unfair_obstacles(obstacles);
-
-	while (unfair_obstacle_indexes.size() > 0) {
-
-
-		unfair_obstacle_indexes = get_unfair_obstacles(obstacles);
-	}
-}
-
-std::vector<int> obstacle::get_unfair_obstacles(std::vector<obstacle> &obstacles) {
-	std::vector<int> unfair_obstacle_indexes;
-
-	for (int obstacle_num = 0; obstacle_num < obstacles.size(); obstacle_num++) {
-		if (obstacles[obstacle_num].get_obstacle_x() == this->obstacle_x && obstacles[obstacle_num].get_obstacle_y() == this->obstacle_y) {
-			continue;
-		}
-		else if (abs(obstacles[obstacle_num].get_obstacle_x() - this->obstacle_x) < 25) {
-			unfair_obstacle_indexes.push_back(obstacle_num);
-		}
-	}
-
-	return unfair_obstacle_indexes;
 }

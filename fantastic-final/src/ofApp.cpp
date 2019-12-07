@@ -4,7 +4,6 @@
 void ofApp::draw_dino() {
 	// #####################
 	// TODO implement option for player to play w/ menu
-	// TODO hitbox true/false
 
 	// Visualize player dino
 	if (is_human_playing) {
@@ -122,9 +121,10 @@ void ofApp::setup(){
 	score = 0;
 	generation = 0;
 
-	for (int i = 0; i < MAX_NUMBER_OF_OBSTACLES; i++) {
+	obstacles_.push_back(obstacle(ofGetWindowWidth(), DEFAULT_START_Y + 110));
+	for (int i = 1; i < MAX_NUMBER_OF_OBSTACLES; i++) {
 		// CHANGE CONSTANT TO WORK WITH SCREEN
-		obstacles_.push_back(obstacle(ofGetWindowWidth() + 50, DEFAULT_START_Y + 115));
+		obstacles_.push_back(obstacle(obstacles_[i-1].get_obstacle_x() + (rand() % 400) + 200, DEFAULT_START_Y + 110));
 	}
 }
 
@@ -174,8 +174,9 @@ void ofApp::update(){
 			}
 		}
 
-		for (auto& obstacle : obstacles_) {
-			obstacle.update();
+		for (int obstacle_num = 0; obstacle_num < obstacles_.size(); obstacle_num++) {
+			int previous_index = (obstacle_num != 0 ? obstacle_num - 1 : MAX_NUMBER_OF_OBSTACLES - 1);
+			obstacles_[obstacle_num].update(obstacles_[previous_index].get_obstacle_x());
 		}
 
 		if (individuals_.are_all_dead() && !is_human_playing) {

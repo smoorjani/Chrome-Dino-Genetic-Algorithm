@@ -57,5 +57,5 @@
 	- Made a menu to choose between playing against the AI and training the AI
 	- Have yet to isolate fittest for the playing against AI option
 
- - **12/6/19** 
+ - **12/6/19** Made obstacle generation fair for the player, tweaked the optimization function
 
