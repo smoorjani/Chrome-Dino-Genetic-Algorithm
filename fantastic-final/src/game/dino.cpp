@@ -1,7 +1,7 @@
 #include "dino.h"
 
 const float dino::dino_proportion_scalar = 0.1;
-constexpr float dino_hitbox_shrink_scalar = 0.4;
+constexpr float dino_hitbox_shrink_scalar = 0.35;
 
 dino::dino() {
 	dino_x = DEFAULT_START_X;

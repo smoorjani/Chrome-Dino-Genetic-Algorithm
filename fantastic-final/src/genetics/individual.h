@@ -9,6 +9,7 @@
 constexpr int GENE_LENGTH = 4;
 constexpr double GENE_RANGE = 10.0;
 constexpr double DECISION_TOLERANCE = 0.8;
+constexpr double JUMP_PENALTY = 5;
 
 class individual
 {
@@ -21,6 +22,7 @@ class individual
 		dino dino_;
 
 		void increment_score(double points);
+		void decrease_score(double points);
 		void set_fitness_score(int score);
 		double get_fitness_score();
 

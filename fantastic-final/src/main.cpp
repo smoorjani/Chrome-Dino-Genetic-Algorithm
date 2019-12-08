@@ -2,6 +2,8 @@
 #include "ofApp.h"
 //#include "matplotlibcpp.h"
 
+// Current best: -2 -1.9129 8.84732 2.28675
+
 //========================================================================
 int main() {
 	ofSetupOpenGL(1024,768,OF_WINDOW);			// <-------- setup the GL context

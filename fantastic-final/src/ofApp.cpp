@@ -98,7 +98,11 @@ void ofApp::generation_reset() {
 
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
 		individuals_.individuals[individual_num].dino_.reset();
+		
+		// TODO Test if cumulative fitness scores makes training better
 		individuals_.individuals[individual_num].set_fitness_score(0);
+
+		// TODO would making jumps less desireable make the AI more effective?
 	}
 
 	score = 0;
@@ -119,6 +123,14 @@ void ofApp::setup(){
 		individuals_.individuals[individual_num].dino_.setup_image(file_path);
 	}
 
+	// ----------------------------------------
+	// BEST AI so far - Demonstration purposes
+	std::vector<double> best_genes = {-2, -1.9129, 8.84732, 2.28675};
+	for (int gene_num = 0; gene_num < best_genes.size(); gene_num++) {
+		individuals_.individuals[0].set_gene(best_genes[gene_num], gene_num);
+	}
+	// ----------------------------------------
+	
 	current_state_ = MENU;
 	ofSetWindowTitle("Dino");
 
@@ -161,8 +173,11 @@ void ofApp::update(){
 				continue;
 			}
 
-			if (temp_individual.should_jump(obstacles_)) {
+			if (temp_individual.should_jump(obstacles_) && !temp_individual.dino_.get_is_jumping()) {
 				individuals_.individuals[individual_num].dino_.jump();
+
+				// deincentivize jumping
+				individuals_.individuals[individual_num].decrease_score(JUMP_PENALTY);
 			}
 
 			if (temp_individual.dino_.get_is_jumping() && temp_individual.dino_.get_dino_y() <= DEFAULT_START_Y) {
@@ -170,14 +185,24 @@ void ofApp::update(){
 			}
 
 			for (auto& obstacle : obstacles_) {
+				float dist_from_obst = individuals_.individuals[individual_num].dino_.get_dino_hitbox().getX() - obstacle.get_obstacle_hitbox().getX() + obstacle.get_obstacle_hitbox().getWidth();
 				if (individuals_.individuals[individual_num].dino_.has_collided(obstacle)) {
 					individuals_.individuals[individual_num].dino_.set_is_dead(true);
 					// TODO make characteristic to stop player when collides
 				}
+				else if (dist_from_obst > 0 && dist_from_obst < 5 && !individuals_.individuals[individual_num].dino_.get_is_dead()) {
+					individuals_.individuals[individual_num].increment_score(10);
+				}
 			}
 			
+			// Add points if the dino jumps over an obstacle successfully
+
+			// if dino hitbox is to right of obstacle hitbox by 1 px and not dead
+
+
+
 			if (!individuals_.individuals[individual_num].dino_.get_is_dead()) {
-				individuals_.individuals[individual_num].increment_score(POINTS_PER_FRAME);
+				individuals_.individuals[individual_num].increment_score(POINTS_PER_FRAME * .1);
 			}
 		}
 

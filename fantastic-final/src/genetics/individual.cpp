@@ -15,6 +15,10 @@ void individual::increment_score(double points) {
 	fitness_score += points;
 }
 
+void individual::decrease_score(double points) {
+	fitness_score -= points;
+}
+
 void individual::set_fitness_score(int score) {
 	this->fitness_score = score;
 }
