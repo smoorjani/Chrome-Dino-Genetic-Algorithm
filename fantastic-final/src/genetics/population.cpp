@@ -97,10 +97,10 @@ void population::crossover() {
 void population::mutation() {
 	for (int i = 0; i < NUM_MUTATIONS; i++) {
 		int mutation_index = rand() % GENE_LENGTH;
-		double random_mutation_value = float((rand()) / float(RAND_MAX / 10.0)) - 5;
+		double random_mutation_value = float((rand()) / float(RAND_MAX / GENE_RANGE)) - (GENE_RANGE/2);
 
-		while (abs(random_mutation_value + individuals[fittest_individual].get_genes()[mutation_index]) > 10.0) {
-			random_mutation_value = float((rand()) / float(RAND_MAX / 10.0)) - 5;
+		while (abs(random_mutation_value + individuals[fittest_individual].get_genes()[mutation_index]) > GENE_RANGE) {
+			random_mutation_value = float((rand()) / float(RAND_MAX / GENE_RANGE)) - (GENE_RANGE/2);
 		}
 
 		individuals[fittest_individual].set_gene((individuals[fittest_individual].get_genes()[mutation_index]) + random_mutation_value, mutation_index);

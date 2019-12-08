@@ -12,6 +12,8 @@ constexpr float POINTS_PER_FRAME = 0.25;
 
 class ofApp : public ofBaseApp{
 	private:
+		ofSoundPlayer jump_sound;
+
 		GameState current_state_ = RUNNING;
 		// TODO Change variable name to player_individual
 		individual player_dino_;

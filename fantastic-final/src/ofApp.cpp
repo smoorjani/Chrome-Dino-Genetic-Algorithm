@@ -112,6 +112,7 @@ void ofApp::generation_reset() {
 void ofApp::setup(){
 	std::string file_path = "big_chrome_dino.png";
 	player_dino_.dino_.setup_image(file_path);
+	jump_sound.load("beep.mp3");
 
 	individuals_.initialize_population(5);
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
@@ -240,6 +241,7 @@ void ofApp::draw() {
 void ofApp::keyPressed(int key){ 
 	if (is_human_playing && key == ' ') {
 		if (!player_dino_.dino_.get_is_jumping()) {
+			jump_sound.play();
 			player_dino_.dino_.jump();
 		}
 		return;
