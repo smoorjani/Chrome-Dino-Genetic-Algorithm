@@ -15,18 +15,18 @@ class ofApp : public ofBaseApp{
 		ofSoundPlayer jump_sound;
 
 		GameState current_state_ = RUNNING;
-		// TODO Change variable name to player_individual
 		individual player_dino_;
 		individual best_ai_;
 
 		population individuals_;
 		std::vector<obstacle> obstacles_;
+
 		bool should_update_ = true;
 		bool is_human_playing = false;
+		bool human_won = false;
 		bool draw_hitboxes = false;
 
 		float score;
-		// TODO Display this on screen
 		int generation;
 
 		void draw_dino();
@@ -36,12 +36,17 @@ class ofApp : public ofBaseApp{
 
 		void draw_obstacles();
 		void draw_score();
+		void draw_genetic_information();
 		void draw_game_over();
 		void draw_menu();
 		void draw_game_paused();
 
 		void reset();
 		void generation_reset();
+
+		void update_human_game();
+		void update_training();
+		void generation_transition();
 
 	public:
 		void setup();

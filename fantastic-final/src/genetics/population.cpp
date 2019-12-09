@@ -93,24 +93,23 @@ void population::crossover() {
 	}
 }
 
-// TODO change mutation from switching 1 and 0 to randomly swapping value (with a limit to max difference swapped?)
 void population::mutation() {
 	for (int i = 0; i < NUM_MUTATIONS; i++) {
 		int mutation_index = rand() % GENE_LENGTH;
+		int individual_to_mutate = int(rand() % individuals.size());
 		double random_mutation_value = float((rand()) / float(RAND_MAX / GENE_RANGE)) - (GENE_RANGE/2);
 
-		while (abs(random_mutation_value + individuals[fittest_individual].get_genes()[mutation_index]) > GENE_RANGE) {
+		while (abs(random_mutation_value + individuals[individual_to_mutate].get_genes()[mutation_index]) > GENE_RANGE) {
 			random_mutation_value = float((rand()) / float(RAND_MAX / GENE_RANGE)) - (GENE_RANGE/2);
+			// Dampen mutations as individual gets closer to desirable traits
+			random_mutation_value /= abs(individuals[individual_to_mutate].get_fitness_score());
 		}
 
-		individuals[fittest_individual].set_gene((individuals[fittest_individual].get_genes()[mutation_index]) + random_mutation_value, mutation_index);
+		individuals[individual_to_mutate].set_gene((individuals[individual_to_mutate].get_genes()[mutation_index]) + random_mutation_value, mutation_index);
 	}
 }
 
 void population::add_fittest_offspring() {
-	//individuals[fittest_individual].calculate_fitness_score();
-	//individuals[second_fittest_individual].calculate_fitness_score();
-
 	int least_fittest_index = get_least_fit();
 	set_individual(get_individual(fittest_individual), least_fittest_index);
 }

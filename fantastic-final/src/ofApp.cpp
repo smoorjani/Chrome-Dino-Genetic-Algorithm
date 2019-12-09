@@ -1,7 +1,8 @@
 #include "ofApp.h"
 
+constexpr double TEXT_CENTER_SCALAR = 0.45;
+
 void ofApp::draw_dino() {
-	// Visualize player dino
 	if (is_human_playing) {
 		draw_player_dino();
 		draw_best_ai_dino();
@@ -63,20 +64,29 @@ void ofApp::draw_obstacles() {
 
 void ofApp::draw_game_over() {
 	string lose_message = "You Lost! Final Score: " + std::to_string(int(score));
+	string win_message = "You Won! Final Score: " + std::to_string(int(score));
+
 	ofSetColor(0, 0, 0);
-	ofDrawBitmapString(lose_message, ofGetWindowWidth() / 2,
-		ofGetWindowHeight() / 2);
+	if (!human_won) {
+		ofDrawBitmapString(lose_message, ofGetWindowWidth() / 2,
+			ofGetWindowHeight() / 2);
+	}
+	else {
+		ofDrawBitmapString(win_message, ofGetWindowWidth() / 2,
+			ofGetWindowHeight() / 2);
+	}
+	
 }
 
 void ofApp::draw_menu() {
 	string menu_header = "Chrome Dino GA";
 	ofSetColor(0, 0, 0);
-	ofDrawBitmapString(menu_header, ofGetWindowWidth() / 2,
+	ofDrawBitmapString(menu_header, ofGetWindowWidth() * TEXT_CENTER_SCALAR,
 		ofGetWindowHeight() / 3);
 
 	string options = "(1) Train Dino \n(2) Play Dino \n(ESC) Exit";
 	ofSetColor(0, 0, 0);
-	ofDrawBitmapString(options, ofGetWindowWidth() / 2,
+	ofDrawBitmapString(options, ofGetWindowWidth() * TEXT_CENTER_SCALAR,
 		ofGetWindowHeight() / 2);
 }
 
@@ -93,6 +103,20 @@ void ofApp::draw_score() {
 	ofDrawBitmapString(score_message, 20, 20);
 }
 
+void ofApp::draw_genetic_information() {
+	string generation_message = "Generation: " + std::to_string(generation);
+	ofSetColor(0, 0, 0);
+	ofDrawBitmapString(generation_message, ofGetWindowWidth()/2 - 20, 20);
+
+	std::vector<double> fittest_genes = individuals_.get_individuals()[individuals_.get_fittest()].get_genes();
+	std::string fittest_genes_message = "Fittest Individual Genes: ";
+	for (double gene : fittest_genes) {
+		fittest_genes_message += std::to_string(gene) + " ";
+	}
+	ofSetColor(0, 0, 0);
+	ofDrawBitmapString(fittest_genes_message, ofGetWindowWidth() / 2 - 20, 40);
+}
+
 void ofApp::reset() {
 	obstacles_.clear();
 	individuals_.clear();
@@ -103,6 +127,7 @@ void ofApp::reset() {
 	}
 
 	is_human_playing = false;
+	human_won = false;
 	setup();
 }
 
@@ -112,11 +137,8 @@ void ofApp::generation_reset() {
 
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
 		individuals_.individuals[individual_num].dino_.reset();
-		
 		// TODO Test if cumulative fitness scores makes training better
 		individuals_.individuals[individual_num].set_fitness_score(0);
-
-		// TODO would making jumps less desireable make the AI more effective?
 	}
 
 	score = 0;
@@ -125,6 +147,82 @@ void ofApp::generation_reset() {
 		// TODO: replace 115 with difference in image heights
 		obstacles_.push_back(obstacle(ofGetWindowWidth() + 50, DEFAULT_START_Y + 115));
 	}
+}
+
+void ofApp::update_human_game() {
+	if (!player_dino_.dino_.get_is_dead() && player_dino_.dino_.get_is_jumping() && player_dino_.dino_.get_dino_y() <= DEFAULT_START_Y) {
+		player_dino_.dino_.update();
+	}
+
+	if (best_ai_.should_jump(obstacles_) && !best_ai_.dino_.get_is_jumping()) {
+		best_ai_.dino_.jump();
+	}
+
+	if (best_ai_.dino_.get_is_jumping() && best_ai_.dino_.get_dino_y() <= DEFAULT_START_Y) {
+		best_ai_.dino_.update();
+	}
+
+	for (auto& obstacle : obstacles_) {
+		if (player_dino_.dino_.has_collided(obstacle)) {
+			human_won = false;
+			player_dino_.dino_.set_is_dead(true);
+			current_state_ = FINISHED;
+		}
+
+		if (best_ai_.dino_.has_collided(obstacle)) {
+			human_won = true;
+			best_ai_.dino_.set_is_dead(true);
+			current_state_ = FINISHED;
+		}
+	}
+}
+
+void ofApp::update_training() {
+	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
+		individual temp_individual = individuals_.individuals[individual_num];
+		if (temp_individual.dino_.get_is_dead()) {
+			continue;
+		}
+
+		if (temp_individual.should_jump(obstacles_) && !temp_individual.dino_.get_is_jumping()) {
+			individuals_.individuals[individual_num].dino_.jump();
+			// deincentivize jumping
+			individuals_.individuals[individual_num].decrease_score(JUMP_PENALTY);
+		}
+
+		if (temp_individual.dino_.get_is_jumping() && temp_individual.dino_.get_dino_y() <= DEFAULT_START_Y) {
+			individuals_.individuals[individual_num].dino_.update();
+		}
+
+		for (auto& obstacle : obstacles_) {
+			float dist_from_obst = individuals_.individuals[individual_num].dino_.get_dino_hitbox().getX() - obstacle.get_obstacle_hitbox().getX() + obstacle.get_obstacle_hitbox().getWidth();
+			if (individuals_.individuals[individual_num].dino_.has_collided(obstacle)) {
+				individuals_.individuals[individual_num].dino_.set_is_dead(true);
+			}
+			else if (dist_from_obst > 0 && dist_from_obst < 5 && !individuals_.individuals[individual_num].dino_.get_is_dead()) {
+				individuals_.individuals[individual_num].increment_score(10);
+			}
+		}
+
+		if (!individuals_.individuals[individual_num].dino_.get_is_dead()) {
+			individuals_.individuals[individual_num].increment_score(POINTS_PER_FRAME * .1);
+		}
+	}
+}
+
+void ofApp::generation_transition() {
+	generation_reset();
+
+	individuals_.selection();
+	individuals_.crossover();
+
+	// CHANGE CONSTANTS HERE
+	if (rand() % 7 < 4) {
+		individuals_.mutation();
+	}
+
+	individuals_.add_fittest_offspring();
+	generation++;
 }
 
 void ofApp::setup(){
@@ -137,8 +235,6 @@ void ofApp::setup(){
 		individuals_.individuals[individual_num].dino_.setup_image(image_file_path);
 	}
 
-	// ----------------------------------------
-	// BEST AI so far - Demonstration purposes
 	std::string data_file = "data.csv";
 	std::vector<double> best_genes = gene_data_writer::get_best_individual_genes(data_file);
 
@@ -147,7 +243,6 @@ void ofApp::setup(){
 	for (int gene_num = 0; gene_num < best_genes.size(); gene_num++) {
 		best_ai_.set_gene(best_genes[gene_num], gene_num);
 	}
-	// ----------------------------------------
 	
 	current_state_ = MENU;
 	ofSetWindowTitle("Dino");
@@ -158,13 +253,10 @@ void ofApp::setup(){
 
 	obstacles_.push_back(obstacle(ofGetWindowWidth(), DEFAULT_START_Y + 110));
 	for (int i = 1; i < MAX_NUMBER_OF_OBSTACLES; i++) {
-		// CHANGE CONSTANT TO WORK WITH SCREEN
-		// SCREEN_OFFSET or 400?
 		obstacles_.push_back(obstacle(obstacles_[i-1].get_obstacle_x() + (rand() % SCREEN_OFFSET) + MIN_DIST_BETWEEN_OBSTACLES, DEFAULT_START_Y + 110));
 	}
 }
 
-// breakup this function
 void ofApp::update(){
 	if (current_state_ == RUNNING) {
 		score += POINTS_PER_FRAME;
@@ -175,95 +267,24 @@ void ofApp::update(){
 		}
 
 		if (is_human_playing) {
-			if (!player_dino_.dino_.get_is_dead() && player_dino_.dino_.get_is_jumping() && player_dino_.dino_.get_dino_y() <= DEFAULT_START_Y) {
-				player_dino_.dino_.update();
-			}
-
-			if (best_ai_.should_jump(obstacles_) && !best_ai_.dino_.get_is_jumping()) {
-				best_ai_.dino_.jump();
-			}
-
-			if (best_ai_.dino_.get_is_jumping() && best_ai_.dino_.get_dino_y() <= DEFAULT_START_Y) {
-				best_ai_.dino_.update();
-			}
-
-			// TODO: DETERMINE WHO LOST
-			for (auto& obstacle : obstacles_) {
-				if (player_dino_.dino_.has_collided(obstacle)) {
-					player_dino_.dino_.set_is_dead(true);
-					current_state_ = FINISHED;
-				}
-
-				if (best_ai_.dino_.has_collided(obstacle)) {
-					best_ai_.dino_.set_is_dead(true);
-					current_state_ = FINISHED;
-				}
-			}
+			update_human_game();
 		}
 		else {
-			for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
-				individual temp_individual = individuals_.individuals[individual_num];
-				if (temp_individual.dino_.get_is_dead()) {
-					continue;
-				}
-
-				if (temp_individual.should_jump(obstacles_) && !temp_individual.dino_.get_is_jumping()) {
-					individuals_.individuals[individual_num].dino_.jump();
-					// deincentivize jumping
-					individuals_.individuals[individual_num].decrease_score(JUMP_PENALTY);
-				}
-
-				if (temp_individual.dino_.get_is_jumping() && temp_individual.dino_.get_dino_y() <= DEFAULT_START_Y) {
-					individuals_.individuals[individual_num].dino_.update();
-				}
-
-				for (auto& obstacle : obstacles_) {
-					float dist_from_obst = individuals_.individuals[individual_num].dino_.get_dino_hitbox().getX() - obstacle.get_obstacle_hitbox().getX() + obstacle.get_obstacle_hitbox().getWidth();
-					if (individuals_.individuals[individual_num].dino_.has_collided(obstacle)) {
-						individuals_.individuals[individual_num].dino_.set_is_dead(true);
-						// TODO make characteristic to stop player when collides
-					}
-					else if (dist_from_obst > 0 && dist_from_obst < 5 && !individuals_.individuals[individual_num].dino_.get_is_dead()) {
-						individuals_.individuals[individual_num].increment_score(10);
-					}
-				}
-
-				if (!individuals_.individuals[individual_num].dino_.get_is_dead()) {
-					individuals_.individuals[individual_num].increment_score(POINTS_PER_FRAME * .1);
-				}
-			}
+			update_training();
 
 			if (individuals_.are_all_dead()) {
 				std::cout << "----------------------------------" << std::endl;
 				std::cout << "Generation: " << generation << std::endl;
 
 				for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
-					std::cout << "Individual " << individual_num << " Fitness Score: " << individuals_.get_individual(individual_num).get_fitness_score() << " Genes: ";
+					std::cout << "Individual " << individual_num << " ";
+					std::cout << individuals_.get_individual(individual_num);
 
 					std::vector<double> genes = individuals_.get_individual(individual_num).get_genes();
-					for (double gene : genes) {
-						std::cout << gene << " ";
-					}
-					std::cout << std::endl;
-
 					gene_data_writer::save_data_to_csv(generation, individual_num, individuals_.get_individual(individual_num).get_fitness_score(), genes);
 				}
 
-
-				generation_reset();
-
-				individuals_.selection();
-				individuals_.crossover();
-
-				// CHANGE CONSTANTS HERE
-				if (rand() % 7 < 4) {
-					individuals_.mutation();
-				}
-
-				individuals_.add_fittest_offspring();
-
-				generation++;
-
+				generation_transition();
 				return;
 			}
 		}
@@ -284,6 +305,10 @@ void ofApp::draw() {
 	draw_dino();
 	draw_obstacles();
 	draw_score();
+
+	if (!is_human_playing) {
+		draw_genetic_information();
+	}
 }
 
 void ofApp::keyPressed(int key){ 
@@ -313,7 +338,9 @@ void ofApp::keyPressed(int key){
 		}
 		return;
     } else if (key == 'r' && (current_state_ == RUNNING || current_state_ == FINISHED)) {
+		bool was_human_playing = is_human_playing;
         reset();
+		is_human_playing = was_human_playing;
 		current_state_ = RUNNING;
 		return;
 	}

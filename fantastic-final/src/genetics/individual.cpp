@@ -81,8 +81,7 @@ individual& individual::operator=(individual* rhs) {
 }
 
 std::ostream& operator<<(std::ostream& output, individual& individual) {
-	output << "Fitness: " << individual.get_fitness_score() << std::endl;
-	output << "Genes: ";
+	output << "Fitness: " << individual.get_fitness_score() << " Genes: ";
 
 	for (size_t i = 0; i < individual.get_genes().size(); i++) {
 		output << individual.get_genes()[i] << " ";
