@@ -1,12 +1,15 @@
 #include "ofApp.h"
 
-// TODO break this function up
 void ofApp::draw_dino() {
 	// Visualize player dino
 	if (is_human_playing) {
 		draw_player_dino();
+		draw_best_ai_dino();
 	}
-	draw_ai_dino();
+	else {
+		draw_ai_dino();
+	}
+	
 }
 
 void ofApp::draw_player_dino() {
@@ -33,6 +36,16 @@ void ofApp::draw_ai_dino() {
 			ofSetColor(temp_dino.get_dino_color());
 			ofDrawRectangle(temp_dino.get_dino_hitbox());
 		}
+	}
+}
+
+void ofApp::draw_best_ai_dino() {
+	best_ai_.dino_.get_dino_image().draw(best_ai_.dino_.get_dino_x(), best_ai_.dino_.get_dino_y());
+
+	// Visualize Dino Hitbox
+	if (draw_hitboxes) {
+		ofSetColor(best_ai_.dino_.get_dino_color());
+		ofDrawRectangle(best_ai_.dino_.get_dino_hitbox());
 	}
 }
 
@@ -89,6 +102,7 @@ void ofApp::reset() {
 		individuals_.individuals[individual_num].dino_.reset();
 	}
 
+	is_human_playing = false;
 	setup();
 }
 
@@ -114,20 +128,24 @@ void ofApp::generation_reset() {
 }
 
 void ofApp::setup(){
-	std::string file_path = "big_chrome_dino.png";
-	player_dino_.dino_.setup_image(file_path);
+	std::string image_file_path = "big_chrome_dino.png";
+	player_dino_.dino_.setup_image(image_file_path);
 	jump_sound.load("beep.mp3");
 
 	individuals_.initialize_population(5);
 	for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
-		individuals_.individuals[individual_num].dino_.setup_image(file_path);
+		individuals_.individuals[individual_num].dino_.setup_image(image_file_path);
 	}
 
 	// ----------------------------------------
 	// BEST AI so far - Demonstration purposes
-	std::vector<double> best_genes = {-2, -1.9129, 8.84732, 2.28675};
+	std::string data_file = "data.csv";
+	std::vector<double> best_genes = gene_data_writer::get_best_individual_genes(data_file);
+
+	best_ai_.dino_.setup_image(image_file_path);
+	//std::vector<double> best_genes = {-2, -1.9129, 8.84732, 2.28675};
 	for (int gene_num = 0; gene_num < best_genes.size(); gene_num++) {
-		individuals_.individuals[0].set_gene(best_genes[gene_num], gene_num);
+		best_ai_.set_gene(best_genes[gene_num], gene_num);
 	}
 	// ----------------------------------------
 	
@@ -151,98 +169,103 @@ void ofApp::update(){
 	if (current_state_ == RUNNING) {
 		score += POINTS_PER_FRAME;
 
-		if (is_human_playing) {
-			if (!player_dino_.dino_.get_is_dead() && player_dino_.dino_.get_is_jumping() && player_dino_.dino_.get_dino_y() <= DEFAULT_START_Y) {
-				player_dino_.dino_.update();
-			}
-
-			for (auto& obstacle : obstacles_) {
-				if (player_dino_.dino_.has_collided(obstacle)) {
-					player_dino_.dino_.set_is_dead(true);
-
-					if (is_human_playing) {
-						current_state_ = FINISHED;
-					}
-				}
-			}
-		}
-
-		for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
-			individual temp_individual = individuals_.individuals[individual_num];
-			if (temp_individual.dino_.get_is_dead()) {
-				continue;
-			}
-
-			if (temp_individual.should_jump(obstacles_) && !temp_individual.dino_.get_is_jumping()) {
-				individuals_.individuals[individual_num].dino_.jump();
-
-				// deincentivize jumping
-				individuals_.individuals[individual_num].decrease_score(JUMP_PENALTY);
-			}
-
-			if (temp_individual.dino_.get_is_jumping() && temp_individual.dino_.get_dino_y() <= DEFAULT_START_Y) {
-				individuals_.individuals[individual_num].dino_.update();
-			}
-
-			for (auto& obstacle : obstacles_) {
-				float dist_from_obst = individuals_.individuals[individual_num].dino_.get_dino_hitbox().getX() - obstacle.get_obstacle_hitbox().getX() + obstacle.get_obstacle_hitbox().getWidth();
-				if (individuals_.individuals[individual_num].dino_.has_collided(obstacle)) {
-					individuals_.individuals[individual_num].dino_.set_is_dead(true);
-					// TODO make characteristic to stop player when collides
-				}
-				else if (dist_from_obst > 0 && dist_from_obst < 5 && !individuals_.individuals[individual_num].dino_.get_is_dead()) {
-					individuals_.individuals[individual_num].increment_score(10);
-				}
-			}
-			
-			// Add points if the dino jumps over an obstacle successfully
-
-			// if dino hitbox is to right of obstacle hitbox by 1 px and not dead
-
-
-
-			if (!individuals_.individuals[individual_num].dino_.get_is_dead()) {
-				individuals_.individuals[individual_num].increment_score(POINTS_PER_FRAME * .1);
-			}
-		}
-
 		for (int obstacle_num = 0; obstacle_num < obstacles_.size(); obstacle_num++) {
 			int previous_index = (obstacle_num != 0 ? obstacle_num - 1 : MAX_NUMBER_OF_OBSTACLES - 1);
 			obstacles_[obstacle_num].update(obstacles_[previous_index].get_obstacle_x());
 		}
 
-		if (individuals_.are_all_dead() && !is_human_playing) {
-			std::cout << "----------------------------------" << std::endl;
-			std::cout << "Generation: " << generation << std::endl;
+		if (is_human_playing) {
+			if (!player_dino_.dino_.get_is_dead() && player_dino_.dino_.get_is_jumping() && player_dino_.dino_.get_dino_y() <= DEFAULT_START_Y) {
+				player_dino_.dino_.update();
+			}
 
-			for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
-				std::cout << "Individual " << individual_num << " Fitness Score: " << individuals_.get_individual(individual_num).get_fitness_score() << " Genes: ";
-				
-				std::vector<double> genes = individuals_.get_individual(individual_num).get_genes();
-				for (double gene : genes) {
-					std::cout << gene << " ";
+			if (best_ai_.should_jump(obstacles_) && !best_ai_.dino_.get_is_jumping()) {
+				best_ai_.dino_.jump();
+			}
+
+			if (best_ai_.dino_.get_is_jumping() && best_ai_.dino_.get_dino_y() <= DEFAULT_START_Y) {
+				best_ai_.dino_.update();
+			}
+
+			// TODO: DETERMINE WHO LOST
+			for (auto& obstacle : obstacles_) {
+				if (player_dino_.dino_.has_collided(obstacle)) {
+					player_dino_.dino_.set_is_dead(true);
+					current_state_ = FINISHED;
 				}
-				std::cout << std::endl;
 
-				gene_data_writer::save_data_to_csv(generation, individual_num, individuals_.get_individual(individual_num).get_fitness_score(), genes);
+				if (best_ai_.dino_.has_collided(obstacle)) {
+					best_ai_.dino_.set_is_dead(true);
+					current_state_ = FINISHED;
+				}
 			}
-			
-			
-			generation_reset();
+		}
+		else {
+			for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
+				individual temp_individual = individuals_.individuals[individual_num];
+				if (temp_individual.dino_.get_is_dead()) {
+					continue;
+				}
 
-			individuals_.selection();
-			individuals_.crossover();
+				if (temp_individual.should_jump(obstacles_) && !temp_individual.dino_.get_is_jumping()) {
+					individuals_.individuals[individual_num].dino_.jump();
+					// deincentivize jumping
+					individuals_.individuals[individual_num].decrease_score(JUMP_PENALTY);
+				}
 
-			// CHANGE CONSTANTS HERE
-			if (rand() % 7 < 4) {
-				individuals_.mutation();
+				if (temp_individual.dino_.get_is_jumping() && temp_individual.dino_.get_dino_y() <= DEFAULT_START_Y) {
+					individuals_.individuals[individual_num].dino_.update();
+				}
+
+				for (auto& obstacle : obstacles_) {
+					float dist_from_obst = individuals_.individuals[individual_num].dino_.get_dino_hitbox().getX() - obstacle.get_obstacle_hitbox().getX() + obstacle.get_obstacle_hitbox().getWidth();
+					if (individuals_.individuals[individual_num].dino_.has_collided(obstacle)) {
+						individuals_.individuals[individual_num].dino_.set_is_dead(true);
+						// TODO make characteristic to stop player when collides
+					}
+					else if (dist_from_obst > 0 && dist_from_obst < 5 && !individuals_.individuals[individual_num].dino_.get_is_dead()) {
+						individuals_.individuals[individual_num].increment_score(10);
+					}
+				}
+
+				if (!individuals_.individuals[individual_num].dino_.get_is_dead()) {
+					individuals_.individuals[individual_num].increment_score(POINTS_PER_FRAME * .1);
+				}
 			}
 
-			individuals_.add_fittest_offspring();
+			if (individuals_.are_all_dead()) {
+				std::cout << "----------------------------------" << std::endl;
+				std::cout << "Generation: " << generation << std::endl;
 
-			generation++;
+				for (int individual_num = 0; individual_num < individuals_.get_individuals().size(); individual_num++) {
+					std::cout << "Individual " << individual_num << " Fitness Score: " << individuals_.get_individual(individual_num).get_fitness_score() << " Genes: ";
 
-			return;
+					std::vector<double> genes = individuals_.get_individual(individual_num).get_genes();
+					for (double gene : genes) {
+						std::cout << gene << " ";
+					}
+					std::cout << std::endl;
+
+					gene_data_writer::save_data_to_csv(generation, individual_num, individuals_.get_individual(individual_num).get_fitness_score(), genes);
+				}
+
+
+				generation_reset();
+
+				individuals_.selection();
+				individuals_.crossover();
+
+				// CHANGE CONSTANTS HERE
+				if (rand() % 7 < 4) {
+					individuals_.mutation();
+				}
+
+				individuals_.add_fittest_offspring();
+
+				generation++;
+
+				return;
+			}
 		}
 	}
 }

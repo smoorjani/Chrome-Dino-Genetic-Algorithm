@@ -3,7 +3,7 @@
 #include "ofMain.h"
 
 constexpr float OBSTACLE_VELOCITY = 5;
-constexpr float SPEED_FACTOR = 0.00025;
+constexpr float SPEED_FACTOR = 0.001;
 constexpr int MAX_NUMBER_OF_OBSTACLES = 5;
 constexpr int SCREEN_OFFSET = 2500;
 constexpr int MIN_DIST_BETWEEN_OBSTACLES = 200;

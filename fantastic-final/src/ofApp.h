@@ -17,6 +17,7 @@ class ofApp : public ofBaseApp{
 		GameState current_state_ = RUNNING;
 		// TODO Change variable name to player_individual
 		individual player_dino_;
+		individual best_ai_;
 
 		population individuals_;
 		std::vector<obstacle> obstacles_;
@@ -31,6 +32,7 @@ class ofApp : public ofBaseApp{
 		void draw_dino();
 		void draw_player_dino();
 		void draw_ai_dino();
+		void draw_best_ai_dino();
 
 		void draw_obstacles();
 		void draw_score();
