@@ -1,8 +1,5 @@
 #include "ofMain.h"
 #include "ofApp.h"
-//#include "matplotlibcpp.h"
-
-// Current best: -2 -1.9129 8.84732 2.28675
 
 //========================================================================
 int main() {

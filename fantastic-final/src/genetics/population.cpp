@@ -4,7 +4,7 @@ void population::initialize_population(int population_size) {
 	individuals.reserve(population_size);
 
 	for (size_t i = 0; i < population_size; i++) {
-		individual temp{};
+		individual temp;
 		individuals.push_back(temp);
 	}
 }

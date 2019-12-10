@@ -26,7 +26,7 @@ class dino {
 		ofColor dino_color;
 
 	public:
-		dino();
+		dino(std::string &dino_img);
 
 		float get_dino_x() const;
 		float get_dino_y() const;

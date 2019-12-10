@@ -14,12 +14,13 @@ constexpr double JUMP_PENALTY = 5;
 class individual
 {
 	private:
+		std::string DINO_IMAGE_FILE = "big_chrome_dino.png";
 		double fitness_score;
 		std::vector<double> genes;
 
 	public:
 		individual();
-		dino dino_;
+		dino dino_{ DINO_IMAGE_FILE };
 
 		void increment_score(double points);
 		void decrease_score(double points);

@@ -33,6 +33,7 @@ class ofApp : public ofBaseApp{
 		float score;
 		int generation;
 
+		// Functions to draw game objects/states
 		void draw_dino();
 		void draw_player_dino();
 		void draw_ai_dino();
@@ -45,11 +46,16 @@ class ofApp : public ofBaseApp{
 		void draw_menu();
 		void draw_game_paused();
 
+		// Resets entire game instance
 		void reset();
+		// Prepares for next generation training cycle
 		void generation_reset();
 
+		// Update functionality for when human is playing
 		void update_human_game();
+		// Update functionality for when AI is being trained
 		void update_training();
+		// Wrapper code to contain all changes made to genetics by genetic algorithm
 		void generation_transition();
 
 	public:

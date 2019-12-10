@@ -3,7 +3,7 @@
 const float dino::dino_proportion_scalar = 0.1;
 constexpr float dino_hitbox_shrink_scalar = 0.35;
 
-dino::dino() {
+dino::dino(std::string &dino_img) {
 	dino_x = DEFAULT_START_X;
 	dino_y = DEFAULT_START_Y;
 	dino_velocity_y = 0;
@@ -11,16 +11,11 @@ dino::dino() {
 	is_jumping = false;
 	is_dead = false;
 
-	int window_width = ofGetWindowWidth();
-	int window_height = ofGetWindowHeight();
-	window_dims.set(window_width, window_height);
-
-	dino_width = window_width * dino_proportion_scalar;
-	dino_height = window_height * dino_proportion_scalar;
-	dino_hitbox.setSize(dino_width, dino_height);
+	// Bases initial hitbox size on the window's proportions
 	dino_hitbox.setPosition(dino_x, dino_y);
 
 	dino_color.set(155,255,0);
+	setup_image(dino_img);
 }
 
 float dino::get_dino_x() const {
