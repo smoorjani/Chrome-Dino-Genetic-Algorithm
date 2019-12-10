@@ -5,6 +5,9 @@
 #include "game/obstacle.h"
 #include "genetics/population.h"
 #include "output/gene_data_writer.h"
+
+#include "../addons/ofxGraph/src/ofxGraph.h"
+
 #include <vector>
 
 enum GameState { RUNNING = 0, PAUSED, FINISHED, MENU };
@@ -12,6 +15,7 @@ constexpr float POINTS_PER_FRAME = 0.25;
 
 class ofApp : public ofBaseApp{
 	private:
+		ofxGraph graph;
 		ofSoundPlayer jump_sound;
 
 		GameState current_state_ = RUNNING;

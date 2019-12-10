@@ -1,45 +1,186 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <ClCompile Include="src\ofApp.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\genetics\individual.cpp" />
-    <ClCompile Include="src\genetics\population.cpp" />
-    <ClCompile Include="test\dino_test.cpp" />
-    <ClCompile Include="test\main_test.cpp" />
-    <ClCompile Include="test\obstacle_test.cpp" />
-    <ClCompile Include="src\output\gene_data_writer.cpp" />
-    <ClCompile Include="src\game\dino.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\game\obstacle.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="src">
-      <UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\ofApp.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\genetics\individual.h" />
-    <ClInclude Include="src\genetics\population.h" />
-    <ClInclude Include="src\output\gene_data_writer.h" />
-    <ClInclude Include="src\game\dino.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\game\obstacle.h">
-      <Filter>src</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="icon.rc" />
-  </ItemGroup>
+	<ItemGroup>
+		<ClCompile Include="src\ofApp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\game\dino.cpp">
+			<Filter>src\game</Filter>
+		</ClCompile>
+		<ClCompile Include="src\game\obstacle.cpp">
+			<Filter>src\game</Filter>
+		</ClCompile>
+		<ClCompile Include="src\genetics\individual.cpp">
+			<Filter>src\genetics</Filter>
+		</ClCompile>
+		<ClCompile Include="src\genetics\population.cpp">
+			<Filter>src\genetics</Filter>
+		</ClCompile>
+		<ClCompile Include="src\main.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\ofApp.cpp">
+			<Filter>src</Filter>
+		</ClCompile>
+		<ClCompile Include="src\output\gene_data_writer.cpp">
+			<Filter>src\output</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGraph\src\ofxGraph.cpp">
+			<Filter>addons\ofxGraph\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxBaseGui.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxButton.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxColorPicker.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxGuiGroup.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxInputField.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxLabel.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxPanel.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxSlider.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxSliderGroup.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxToggle.cpp">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\src\ofxXmlSettings.cpp">
+			<Filter>addons\ofxXmlSettings\src</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxml.cpp">
+			<Filter>addons\ofxXmlSettings\libs</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxmlerror.cpp">
+			<Filter>addons\ofxXmlSettings\libs</Filter>
+		</ClCompile>
+		<ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxmlparser.cpp">
+			<Filter>addons\ofxXmlSettings\libs</Filter>
+		</ClCompile>
+	</ItemGroup>
+	<ItemGroup>
+		<Filter Include="src">
+			<UniqueIdentifier>{d8376475-7454-4a24-b08a-aac121d3ad6f}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\game">
+			<UniqueIdentifier>{097A2B9D-257B-165E-E663-6489}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\genetics">
+			<UniqueIdentifier>{45F17E33-2924-296F-DF80-D4A3}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="src\output">
+			<UniqueIdentifier>{98301144-6F3C-0D51-A353-3DFB}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons">
+			<UniqueIdentifier>{71834F65-F3A9-211E-73B8-DC85}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGraph">
+			<UniqueIdentifier>{1200DEAB-7150-1CD6-345C-7C0A}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGraph\src">
+			<UniqueIdentifier>{94D3FEA1-7E7A-7953-0852-9EEC}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGui">
+			<UniqueIdentifier>{4F2A59AF-5F4E-704B-D067-EC13}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxGui\src">
+			<UniqueIdentifier>{645E9533-4DCD-6179-1CDF-CB65}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxXmlSettings">
+			<UniqueIdentifier>{877F005D-13E6-0592-1D97-F2E3}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxXmlSettings\src">
+			<UniqueIdentifier>{CCB2AC63-49D2-977C-CFE8-AEAD}</UniqueIdentifier>
+		</Filter>
+		<Filter Include="addons\ofxXmlSettings\libs">
+			<UniqueIdentifier>{687714A8-1662-FA1C-261F-50F0}</UniqueIdentifier>
+		</Filter>
+	</ItemGroup>
+	<ItemGroup>
+		<ClInclude Include="src\ofApp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\game\dino.h">
+			<Filter>src\game</Filter>
+		</ClInclude>
+		<ClInclude Include="src\game\obstacle.h">
+			<Filter>src\game</Filter>
+		</ClInclude>
+		<ClInclude Include="src\genetics\individual.h">
+			<Filter>src\genetics</Filter>
+		</ClInclude>
+		<ClInclude Include="src\genetics\population.h">
+			<Filter>src\genetics</Filter>
+		</ClInclude>
+		<ClInclude Include="src\matplotlibcpp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\ofApp.h">
+			<Filter>src</Filter>
+		</ClInclude>
+		<ClInclude Include="src\output\gene_data_writer.h">
+			<Filter>src\output</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGraph\src\ofxGraph.h">
+			<Filter>addons\ofxGraph\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxBaseGui.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxButton.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxColorPicker.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxGui.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxGuiGroup.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxInputField.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxLabel.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxPanel.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxSlider.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxSliderGroup.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxToggle.h">
+			<Filter>addons\ofxGui\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\src\ofxXmlSettings.h">
+			<Filter>addons\ofxXmlSettings\src</Filter>
+		</ClInclude>
+		<ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxml.h">
+			<Filter>addons\ofxXmlSettings\libs</Filter>
+		</ClInclude>
+	</ItemGroup>
+	<ItemGroup>
+		<ResourceCompile Include="icon.rc" />
+	</ItemGroup>
 </Project>

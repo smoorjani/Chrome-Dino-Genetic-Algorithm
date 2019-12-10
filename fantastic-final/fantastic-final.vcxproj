@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Condition="'$(WindowsTargetPlatformVersion)'==''">
     <LatestTargetPlatformVersion>$([Microsoft.Build.Utilities.ToolLocationHelper]::GetLatestSDKTargetPlatformVersion('Windows', '10.0'))</LatestTargetPlatformVersion>
-    <WindowsTargetPlatformVersion Condition="'$(WindowsTargetPlatformVersion)' == ''">10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion Condition="'$(WindowsTargetPlatformVersion)' == ''">$(LatestTargetPlatformVersion)</WindowsTargetPlatformVersion>
     <TargetPlatformVersion>$(WindowsTargetPlatformVersion)</TargetPlatformVersion>
   </PropertyGroup>
   <PropertyGroup Label="Globals">
@@ -37,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -49,7 +49,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
     <WholeProgramOptimization>true</WholeProgramOptimization>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
@@ -100,7 +100,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;src\game;src\genetics;src\output;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGraph\src;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
@@ -120,7 +120,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;src\game;src\genetics;src\output;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGraph\src;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -140,7 +140,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;src\game;src\genetics;src\output;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGraph\src;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ObjectFileName>$(IntDir)</ObjectFileName>
@@ -163,7 +163,7 @@
       <PreprocessorDefinitions>%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories);src;src\game;src\genetics;src\output;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGraph\src;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs;..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\src</AdditionalIncludeDirectories>
       <CompileAs>CompileAsCpp</CompileAs>
       <ObjectFileName>$(IntDir)</ObjectFileName>
     </ClCompile>
@@ -180,24 +180,51 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\output\gene_data_writer.cpp" />
-    <ClCompile Include="src\genetics\population.cpp" />
-    <ClCompile Include="src\genetics\individual.cpp" />
-    <ClCompile Include="src\game\dino.cpp" />
-    <ClCompile Include="src\game\obstacle.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
-    <ClCompile Include="test\main_test.cpp" />
-    <ClCompile Include="test\dino_test.cpp" />
-    <ClCompile Include="test\obstacle_test.cpp" />
+    <ClCompile Include="src\game\dino.cpp" />
+    <ClCompile Include="src\game\obstacle.cpp" />
+    <ClCompile Include="src\genetics\individual.cpp" />
+    <ClCompile Include="src\genetics\population.cpp" />
+    <ClCompile Include="src\output\gene_data_writer.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGraph\src\ofxGraph.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxBaseGui.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxButton.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxColorPicker.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxGuiGroup.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxInputField.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxLabel.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxPanel.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxSlider.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxSliderGroup.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxToggle.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\src\ofxXmlSettings.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxml.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxmlerror.cpp" />
+    <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\output\gene_data_writer.h" />
-    <ClInclude Include="src\genetics\population.h" />
-    <ClInclude Include="src\genetics\individual.h" />
+    <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\game\dino.h" />
     <ClInclude Include="src\game\obstacle.h" />
-    <ClInclude Include="src\ofApp.h" />
+    <ClInclude Include="src\genetics\individual.h" />
+    <ClInclude Include="src\genetics\population.h" />
+    <ClInclude Include="src\matplotlibcpp.h" />
+    <ClInclude Include="src\output\gene_data_writer.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGraph\src\ofxGraph.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxBaseGui.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxButton.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxColorPicker.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxGui.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxGuiGroup.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxInputField.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxLabel.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxPanel.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxSlider.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxSliderGroup.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxToggle.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\src\ofxXmlSettings.h" />
+    <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxml.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="$(OF_ROOT)\libs\openFrameworksCompiled\project\vs\openframeworksLib.vcxproj">

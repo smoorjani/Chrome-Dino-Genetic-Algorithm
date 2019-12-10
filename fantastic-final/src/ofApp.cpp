@@ -255,6 +255,15 @@ void ofApp::setup(){
 	for (int i = 1; i < MAX_NUMBER_OF_OBSTACLES; i++) {
 		obstacles_.push_back(obstacle(obstacles_[i-1].get_obstacle_x() + (rand() % SCREEN_OFFSET) + MIN_DIST_BETWEEN_OBSTACLES, DEFAULT_START_Y + 110));
 	}
+
+
+	//---------------------
+	ofxGuiSetFont(ofToDataPath("ofxGraph/DIN Alternate Bold.ttf"), 10);
+
+	// ofxGraph Init
+	graph.setup("Sample");
+	graph.setDx(1.0); // which means delta of time
+	graph.setColor(ofColor::white);  // ofColor(255,255,255)
 }
 
 void ofApp::update(){
@@ -271,6 +280,8 @@ void ofApp::update(){
 		}
 		else {
 			update_training();
+			individual fittest_individual = individuals_.get_individual(individuals_.get_fittest());
+			graph.add(fittest_individual.get_fitness_score());
 
 			if (individuals_.are_all_dead()) {
 				std::cout << "----------------------------------" << std::endl;
@@ -307,6 +318,7 @@ void ofApp::draw() {
 	draw_score();
 
 	if (!is_human_playing) {
+		graph.draw();
 		draw_genetic_information();
 	}
 }
