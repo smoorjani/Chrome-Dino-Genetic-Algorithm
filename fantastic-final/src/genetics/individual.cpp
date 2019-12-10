@@ -37,14 +37,51 @@ void individual::set_gene(double value, int index) {
 
 bool individual::should_jump(std::vector<obstacle> obstacles) {
 	// Multiply all weights with values
-	//	- Velocity of nearest and second nearest obstacles
-	//	- Distance to nearest obstacle / length of nearest obstacle
-	//	- Distance to second nearest obstacle / length of second nearest obstacle
+	//	- Velocity of nearest obstacle
+	//	- Distance to nearest obstacle
+	//	- Length of nearest obstacle
 	// Last weight acts as a bias
+
+	int nearest_obstacle_index = dino_.get_nearest_obstacle(obstacles);
+
+	double nearest_obstacle_velocity = abs(obstacles[nearest_obstacle_index].get_velocity_x());
+	int distance_to_nearest_obstacle = abs(obstacles[nearest_obstacle_index].get_obstacle_x() - dino_.get_dino_x());
+	int nearest_obstacle_length = obstacles[nearest_obstacle_index].get_obstacle_width();
+
+	double computed_gradient = genes[0] * nearest_obstacle_velocity + genes[1] * distance_to_nearest_obstacle 
+							 + genes[2] * nearest_obstacle_length + genes[3];
+
 	// Apply activation function
 	//	- Relu (if positive)
+	//	- Subtracted a constant to ensure dino should jump
+	//  - Constant determined by tolerance factor
 
-	/*
+	return std::max(0.0, computed_gradient - ((GENE_RANGE/2) * DECISION_TOLERANCE));
+}
+
+individual& individual::operator=(individual* rhs) {
+	this->fitness_score = rhs->fitness_score;
+	this->genes = rhs->genes;
+	return *this;
+}
+
+// Overloaded output to streamline display of values
+std::ostream& operator<<(std::ostream& output, individual& individual) {
+	output << "Fitness: " << individual.get_fitness_score() << " Genes: ";
+
+	for (size_t i = 0; i < individual.get_genes().size(); i++) {
+		output << individual.get_genes()[i] << " ";
+	}
+	output << "\n";
+
+	return output;
+}
+
+
+//	- Velocity of nearest and second nearest obstacles
+	//	- Distance to nearest obstacle / length of nearest obstacle
+	//	- Distance to second nearest obstacle / length of second nearest obstacle
+/*
 	int nearest_obstacle_index = dino_.get_nearest_obstacle(obstacles);
 	int second_nearest_obstacle_index = dino_.get_second_nearest_obstacle(obstacles);
 
@@ -57,36 +94,7 @@ bool individual::should_jump(std::vector<obstacle> obstacles) {
 
 	double computed_gradient = genes[0] * nearest_obstacle_velocity + genes[1] * second_nearest_obstacle_velocity +
 							   genes[2] * distance_to_nearest_obstacle + genes[3] * distance_to_second_nearest_obstacle +
-							   genes[4] * nearest_obstacle_length + genes[5] * second_nearest_obstacle_length + 
+							   genes[4] * nearest_obstacle_length + genes[5] * second_nearest_obstacle_length +
 							   genes[6];
 
 	*/
-
-	int nearest_obstacle_index = dino_.get_nearest_obstacle(obstacles);
-
-	double nearest_obstacle_velocity = abs(obstacles[nearest_obstacle_index].get_velocity_x());
-	int distance_to_nearest_obstacle = abs(obstacles[nearest_obstacle_index].get_obstacle_x() - dino_.get_dino_x());
-	int nearest_obstacle_length = obstacles[nearest_obstacle_index].get_obstacle_width();
-
-	double computed_gradient = genes[0] * nearest_obstacle_velocity + genes[1] * distance_to_nearest_obstacle 
-							 + genes[2] * nearest_obstacle_length + genes[3];
-
-	return std::max(0.0, computed_gradient- ((GENE_RANGE/2) * DECISION_TOLERANCE));
-}
-
-individual& individual::operator=(individual* rhs) {
-	this->fitness_score = rhs->fitness_score;
-	this->genes = rhs->genes;
-	return *this;
-}
-
-std::ostream& operator<<(std::ostream& output, individual& individual) {
-	output << "Fitness: " << individual.get_fitness_score() << " Genes: ";
-
-	for (size_t i = 0; i < individual.get_genes().size(); i++) {
-		output << individual.get_genes()[i] << " ";
-	}
-	output << "\n";
-
-	return output;
-}

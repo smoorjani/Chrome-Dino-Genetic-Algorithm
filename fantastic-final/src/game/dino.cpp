@@ -11,11 +11,9 @@ dino::dino(std::string &dino_img) {
 	is_jumping = false;
 	is_dead = false;
 
-	// Bases initial hitbox size on the window's proportions
 	dino_hitbox.setPosition(dino_x, dino_y);
-
-	dino_color.set(155,255,0);
 	setup_image(dino_img);
+	dino_color.set(int(rand() % 255), int(rand() % 255), int(rand() % 255));
 }
 
 float dino::get_dino_x() const {
@@ -72,8 +70,7 @@ ofImage dino::get_dino_image() {
 
 int dino::get_nearest_obstacle(std::vector<obstacle> obstacles) {
 	int nearest_index = 0;
-	// changed to depend on obstacle.h
-	int nearest_distance = 5000;
+	int nearest_distance = INT_MAX;
 
 	for (int obstacle_index = 0; obstacle_index < obstacles.size(); obstacle_index++) {
 		if (abs(obstacles[obstacle_index].get_obstacle_x() - get_dino_x()) < nearest_distance) {
@@ -88,9 +85,10 @@ int dino::get_nearest_obstacle(std::vector<obstacle> obstacles) {
 int dino::get_second_nearest_obstacle(std::vector<obstacle> obstacles) {
 	int nearest_index = get_nearest_obstacle(obstacles);
 	int second_nearest_index = 0;
-	int nearest_distance = 5000;
+	int nearest_distance = INT_MAX;
 
 	for (int obstacle_index = 0; obstacle_index < obstacles.size(); obstacle_index++) {
+		// Ignore the nearest obstacle and use same algorithm as before
 		if (obstacle_index != nearest_index && abs(obstacles[obstacle_index].get_obstacle_x() - get_dino_x()) < nearest_distance) {
 			nearest_distance = int(abs(obstacles[obstacle_index].get_obstacle_x() - get_dino_x()));
 			second_nearest_index = obstacle_index;
@@ -101,6 +99,7 @@ int dino::get_second_nearest_obstacle(std::vector<obstacle> obstacles) {
 }
 
 bool dino::has_collided(obstacle &rhs) {
+	// Checks corners if they intersect
 	return (dino_hitbox.getX() < rhs.get_obstacle_hitbox().getX() + rhs.get_obstacle_hitbox().getWidth() &&
 		dino_hitbox.getX() + dino_hitbox.getWidth() > rhs.get_obstacle_hitbox().getX() &&
 		dino_hitbox.getY() < rhs.get_obstacle_hitbox().getY() + rhs.get_obstacle_hitbox().getHeight() &&
@@ -109,6 +108,8 @@ bool dino::has_collided(obstacle &rhs) {
 
 void dino::set_dino_image(ofImage &img) {
 	this->dino_image = img;
+	// Determine hitbox based on the image size
+	// We use a scalar to decrease the width of the hitbox to make the game easier
 	dino_width = dino_image.getWidth() * dino_hitbox_shrink_scalar;
 	dino_height = dino_image.getHeight();
 	dino_hitbox.setSize(dino_width, dino_height);
@@ -116,7 +117,6 @@ void dino::set_dino_image(ofImage &img) {
 }
 
 void dino::setup_image(std::string &file_path) {
-	// Maybe add try/catch?
 	dino_image.loadImage(file_path);
 	set_dino_image(dino_image);
 }
@@ -135,6 +135,7 @@ void dino::update_dino_position(float new_x, float new_y) {
 }
 
 void dino::update() {
+	// Basic velocity with gravity to mimic real-world physics
 	if (dino_y + dino_velocity_y > DEFAULT_START_Y) {
 		update_dino_position(dino_x, DEFAULT_START_Y);
 		this->is_jumping = false;

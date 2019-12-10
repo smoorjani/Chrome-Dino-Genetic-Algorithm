@@ -18,9 +18,7 @@ class dino {
 		bool is_jumping;
 		bool is_dead;
 
-		ofVec2f window_dims;
 		static const float dino_proportion_scalar;
-
 		ofImage dino_image;
 		ofRectangle dino_hitbox;
 		ofColor dino_color;

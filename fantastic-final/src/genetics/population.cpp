@@ -1,5 +1,6 @@
 #include "population.h"
 
+// Fill individuals with a user-specified amount of individuals
 void population::initialize_population(int population_size) {
 	individuals.reserve(population_size);
 
@@ -18,7 +19,7 @@ int population::get_fittest() {
 	int max_fitness_index = 0;
 
 	for (size_t i = 0; i < individuals.size(); i++) {
-		if (max_fitness_index <= individuals[i].get_fitness_score()) {
+		if (max_fitness_score <= individuals[i].get_fitness_score()) {
 			max_fitness_score = individuals[i].get_fitness_score();
 			max_fitness_index = i;
 		}
@@ -28,18 +29,17 @@ int population::get_fittest() {
 }
 
 int population::get_second_fittest() {
-	int max_fitness = 0;
+	int max_fitness = get_fittest();
 	int second_max_fitness = 0;
+	int second_max_fitness_score = INT_MIN;
 
 	for (size_t i = 0; i < individuals.size(); i++) {
-		if (individuals[i].get_fitness_score() > individuals[max_fitness].get_fitness_score()) {
-			second_max_fitness = max_fitness;
-			max_fitness = i;
-		}
-		else if (individuals[i].get_fitness_score() > individuals[second_max_fitness].get_fitness_score()) {
+		if (i != max_fitness && individuals[i].get_fitness_score() > second_max_fitness_score) {
+			second_max_fitness_score = individuals[i].get_fitness_score();
 			second_max_fitness = i;
 		}
 	}
+
 	return second_max_fitness;
 }
 
@@ -78,11 +78,13 @@ bool population::are_all_dead() {
 	return true;
 }
 
+// Finds the fittest and second fittest individuals
 void population::selection() {
 	fittest_individual = get_fittest();
 	second_fittest_individual = get_second_fittest();
 }
 
+// Swaps genes between two fittest to take best traits from both
 void population::crossover() {
 	int crossover_index = rand() % GENE_LENGTH;
 
@@ -93,6 +95,7 @@ void population::crossover() {
 	}
 }
 
+// Randomly mutates a random gene to simulate mutations in a population
 void population::mutation() {
 	for (int i = 0; i < NUM_MUTATIONS; i++) {
 		int mutation_index = rand() % GENE_LENGTH;
@@ -109,7 +112,22 @@ void population::mutation() {
 	}
 }
 
+// Replaces worst individual witht hte fittest
 void population::add_fittest_offspring() {
 	int least_fittest_index = get_least_fit();
 	set_individual(get_individual(fittest_individual), least_fittest_index);
 }
+
+
+
+/*
+for (size_t i = 0; i < individuals.size(); i++) {
+	if (individuals[i].get_fitness_score() > individuals[max_fitness].get_fitness_score()) {
+		second_max_fitness = max_fitness;
+		max_fitness = i;
+	}
+	else if (individuals[i].get_fitness_score() > individuals[second_max_fitness].get_fitness_score()) {
+		second_max_fitness = i;
+	}
+}
+*/

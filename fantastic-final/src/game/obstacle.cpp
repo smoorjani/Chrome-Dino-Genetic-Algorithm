@@ -2,36 +2,27 @@
 
 const float obstacle::obstacle_proportion_scalar = 0.05;
 
+// Default cacti constructor
 obstacle::obstacle(float x, float y) {
 	obstacle_x = x;
 	obstacle_y = y;
 	obstacle_x_velocity = OBSTACLE_VELOCITY;
 
-	int window_width = ofGetWindowWidth();
-	int window_height = ofGetWindowHeight();
-	window_dims.set(window_width, window_height);
-
-	obstacle_width = obstacle_proportion_scalar * window_width;
-	obstacle_height = obstacle_proportion_scalar * window_height;
-	obstacle_hitbox.setSize(obstacle_width, obstacle_height);
 	obstacle_hitbox.setPosition(obstacle_x, obstacle_y);
-
 	std::string file_path = "cactus.png";
 	setup_image(file_path);
-	
-	obstacle_color.set(255,0,0);
+	obstacle_color.set(255, 0, 0);
 }
 
-obstacle::obstacle(float x, float y, float width, float height) {
-    obstacle_x = x;
-    obstacle_y = y;
+// Would be used for different sizes of cacti
+obstacle::obstacle(float x, float y, std::string& cactus_img) {
+	obstacle_x = x;
+	obstacle_y = y;
+	obstacle_x_velocity = OBSTACLE_VELOCITY;
 
-    obstacle_width = width;
-    obstacle_height = height;
-	obstacle_hitbox.setSize(obstacle_width, obstacle_height);
 	obstacle_hitbox.setPosition(obstacle_x, obstacle_y);
-
-	obstacle_color.set(255, 0, 0);
+	setup_image(cactus_img);
+	obstacle_color.set(255,0,0);
 }
 
 float obstacle::get_obstacle_x() const {
@@ -72,6 +63,7 @@ ofImage obstacle::get_obstacle_image() {
 
 void obstacle::set_obstacle_image(ofImage& img) {
 	this->obstacle_image = img;
+	// Changes hitbox based on image size
 	obstacle_width = obstacle_image.getWidth();
 	obstacle_height = obstacle_image.getHeight();
 	obstacle_hitbox.setSize(obstacle_width, obstacle_height);
@@ -90,6 +82,7 @@ void obstacle::update_obstacle_position(float new_x, float new_y) {
 
 void obstacle::update(float previous_obstacle_x) {
 	if (obstacle_x < 0) {
+		// If the obstacle moves past the screen, shift it to a random distance behind the last object
 		int new_obstacle_x = previous_obstacle_x + (rand() % SCREEN_OFFSET) + MIN_DIST_BETWEEN_OBSTACLES;
 		while (new_obstacle_x < ofGetScreenWidth()) {
 			new_obstacle_x = previous_obstacle_x + (rand() % SCREEN_OFFSET) + MIN_DIST_BETWEEN_OBSTACLES;
@@ -99,5 +92,6 @@ void obstacle::update(float previous_obstacle_x) {
 	else {
 		update_obstacle_position(obstacle_x - obstacle_x_velocity, obstacle_y);
 	}
+	// Increases speed of the game gradually using an acceleration constant
 	obstacle_x_velocity += SPEED_FACTOR;
 }

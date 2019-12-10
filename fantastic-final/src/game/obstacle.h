@@ -4,8 +4,8 @@
 
 constexpr float OBSTACLE_VELOCITY = 5;
 constexpr float SPEED_FACTOR = 0.001;
-constexpr int MAX_NUMBER_OF_OBSTACLES = 5;
-constexpr int SCREEN_OFFSET = 2500;
+constexpr int MAX_NUMBER_OF_OBSTACLES = 10;
+constexpr int SCREEN_OFFSET = 2000;
 constexpr int MIN_DIST_BETWEEN_OBSTACLES = 200;
 
 class obstacle {
@@ -24,8 +24,8 @@ class obstacle {
 	   ofColor obstacle_color;
 
    public:
-       obstacle(float x, float y);
-	   obstacle(float x, float y, float width, float height);
+	   obstacle(float x, float y);
+       obstacle(float x, float y, std::string& cactus_img);
 
 	   float get_obstacle_x() const;
 	   float get_obstacle_y() const;

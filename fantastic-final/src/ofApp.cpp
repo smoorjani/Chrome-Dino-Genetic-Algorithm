@@ -114,12 +114,20 @@ void ofApp::draw_genetic_information() {
 	ofDrawBitmapString(generation_message, ofGetWindowWidth()/2 - 20, 20);
 
 	std::vector<double> fittest_genes = individuals_.get_individuals()[individuals_.get_fittest()].get_genes();
-	std::string fittest_genes_message = "Fittest Individual Genes: ";
+	std::string fittest_genes_message = "Fittest Genes: ";
 	for (double gene : fittest_genes) {
 		fittest_genes_message += std::to_string(gene) + " ";
 	}
 	ofSetColor(0, 0, 0);
 	ofDrawBitmapString(fittest_genes_message, ofGetWindowWidth() / 2 - 20, 40);
+
+	std::vector<double> second_fittest_genes = individuals_.get_individuals()[individuals_.get_second_fittest()].get_genes();
+	std::string second_fittest_genes_message = "Second Fittest Genes: ";
+	for (double gene : second_fittest_genes) {
+		second_fittest_genes_message += std::to_string(gene) + " ";
+	}
+	ofSetColor(0, 0, 0);
+	ofDrawBitmapString(second_fittest_genes_message, ofGetWindowWidth() / 2 - 20, 60);
 }
 
 // Resets entire game instance and calls setup
