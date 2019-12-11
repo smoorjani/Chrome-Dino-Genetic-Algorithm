@@ -60,6 +60,8 @@ class ofApp : public ofBaseApp{
 
 	public:
 		void setup();
+		void setup_graph();
+
 		void update();
 		void draw();
 

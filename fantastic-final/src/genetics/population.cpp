@@ -117,17 +117,3 @@ void population::add_fittest_offspring() {
 	int least_fittest_index = get_least_fit();
 	set_individual(get_individual(fittest_individual), least_fittest_index);
 }
-
-
-
-/*
-for (size_t i = 0; i < individuals.size(); i++) {
-	if (individuals[i].get_fitness_score() > individuals[max_fitness].get_fitness_score()) {
-		second_max_fitness = max_fitness;
-		max_fitness = i;
-	}
-	else if (individuals[i].get_fitness_score() > individuals[second_max_fitness].get_fitness_score()) {
-		second_max_fitness = i;
-	}
-}
-*/

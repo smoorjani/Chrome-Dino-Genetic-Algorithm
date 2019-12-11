@@ -278,7 +278,9 @@ void ofApp::setup(){
 	for (int i = 1; i < MAX_NUMBER_OF_OBSTACLES; i++) {
 		obstacles_.push_back(obstacle(obstacles_[i-1].get_obstacle_x() + (rand() % SCREEN_OFFSET) + MIN_DIST_BETWEEN_OBSTACLES, DEFAULT_START_Y + 110));
 	}
+}
 
+void ofApp::setup_graph() {
 	// Sets up ofxGraph for realtime graphing of data
 	ofxGuiSetFont(ofToDataPath("ofxGraph/DIN Alternate Bold.ttf"), 10);
 	graph.setup("Fitness score vs time");
@@ -358,6 +360,7 @@ void ofApp::keyPressed(int key){
 	int lower_key = tolower(key);
 	
 	if (key == '1' && current_state_ == MENU) {
+		setup_graph();
 		current_state_ = RUNNING;
 	}
 	else if (key == '2' && current_state_ == MENU) {
