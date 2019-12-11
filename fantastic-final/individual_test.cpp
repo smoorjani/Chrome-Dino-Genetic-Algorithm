@@ -31,7 +31,7 @@ TEST_CASE("Test Should Jump") {
 	for (int i = 0; i < individual_.get_genes().size(); i++) {
 		individual_.set_gene(0, i);
 	}
-	REQUIRE(!individual_.should_jump(obstacles_))
+	REQUIRE(!individual_.should_jump(obstacles_));
 }
 
 TEST_CASE("Test Overloaded Equals Operator") {
@@ -39,10 +39,7 @@ TEST_CASE("Test Overloaded Equals Operator") {
 	individual new_individual_;
 
 	REQUIRE(new_individual_.get_genes() != individual_.get_genes());
-	REQUIRE(new_individual_.get_fitness_score() != individual_.get_fitness_score());
 
 	new_individual_ = individual_;
 	REQUIRE(new_individual_.get_genes() == individual_.get_genes());
-	REQUIRE(new_individual_.get_fitness_score() == individual_.get_fitness_score());
-
 }

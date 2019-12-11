@@ -180,7 +180,12 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="dino_test.cpp" />
+    <ClCompile Include="individual_test.cpp" />
+    <ClCompile Include="obstacle_test.cpp" />
+    <ClCompile Include="output_test.cpp" />
+    <ClCompile Include="population_test.cpp" />
+    <ClCompile Include="src\main_test.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\game\dino.cpp" />
     <ClCompile Include="src\game\obstacle.cpp" />
@@ -204,6 +209,7 @@
     <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxmlparser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="catch.hpp" />
     <ClInclude Include="src\ofApp.h" />
     <ClInclude Include="src\game\dino.h" />
     <ClInclude Include="src\game\obstacle.h" />
