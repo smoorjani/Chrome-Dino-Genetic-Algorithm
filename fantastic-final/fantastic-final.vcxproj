@@ -180,12 +180,7 @@
     <PostBuildEvent />
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="dino_test.cpp" />
-    <ClCompile Include="individual_test.cpp" />
-    <ClCompile Include="obstacle_test.cpp" />
-    <ClCompile Include="output_test.cpp" />
-    <ClCompile Include="population_test.cpp" />
-    <ClCompile Include="src\main_test.cpp" />
+    <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ofApp.cpp" />
     <ClCompile Include="src\game\dino.cpp" />
     <ClCompile Include="src\game\obstacle.cpp" />

@@ -70,22 +70,7 @@
     <ClCompile Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxXmlSettings\libs\tinyxmlparser.cpp">
       <Filter>addons\ofxXmlSettings\libs</Filter>
     </ClCompile>
-    <ClCompile Include="dino_test.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="obstacle_test.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="output_test.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="individual_test.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="population_test.cpp">
-      <Filter>test</Filter>
-    </ClCompile>
-    <ClCompile Include="src\main_test.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
