@@ -6,7 +6,7 @@ A relatively simple artificial intelligence to teach a computer how to play Chro
 
 ## Installation
 
-You will need Visual Studio 2017 on Microsoft Windows along like openFrameworks to run this project.
+You will need Visual Studio 2017 on Microsoft Windows with "Desktop Development with C++".
 
 All necessary resources for graphics and sound have been included in resources.rar
 Extract them and move them to \bin\data
@@ -17,6 +17,7 @@ You will need to have/install the following depencies:
 
 1. [Visual Studio 2017](https://visualstudio.microsoft.com/)
 2. [openFramworks](https://openframeworks.cc/)
+3. [mingw](http://www.mingw.org/)
 
 You will need to have/install the following external libraries:
 
