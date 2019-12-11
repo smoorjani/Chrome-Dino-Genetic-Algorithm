@@ -5,11 +5,13 @@ Instructions:
 		- Uncomment the top block of code.
 		- Comment bottom block of code
 		- Remove all tests from the project
+		- Move all tests to test folder
 
 	To run the tests:
 		- Comment top block of code
 		- Uncomment bottom block of code
 		- Add all tests back into project
+		- Move all tests outside of test folder
 
 */
 
