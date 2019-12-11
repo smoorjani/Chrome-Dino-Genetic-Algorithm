@@ -1,13 +1,6 @@
 #include "catch.hpp"
 #include "../src/genetics/population.h"
 
-/*
-void selection();
-void crossover();
-void mutation();
-void add_fittest_offspring();
-*/
-
 TEST_CASE("Test Initialize Population") {
 	population population_;
 	int population_size = 6;
@@ -62,4 +55,37 @@ TEST_CASE("Test AreAllDead") {
 	}
 
 	REQUIRE(population_.are_all_dead());
+}
+
+TEST_CASE("Test Selection") {
+	population population_;
+	int population_size = 6;
+	population_.initialize_population(population_size);
+
+	individual temp_individual;
+	temp_individual.set_fitness_score(100);
+	population_.set_individual(temp_individual, 0);
+
+	individual second_temp_individual;
+	second_temp_individual.set_fitness_score(66);
+	population_.set_individual(temp_individual, 3);
+
+	population_.selection();
+	REQUIRE(population_.get_fittest() == 0);
+	REQUIRE(population_.get_second_fittest() == 3);
+}
+
+TEST_CASE("Test Add Fittest Individual") {
+	population population_;
+	int population_size = 6;
+	population_.initialize_population(population_size);
+
+	for (int i = 0; i < population_size - 1; i++) {
+		individual temp_individual;
+		temp_individual.set_fitness_score(i*100);
+		population_.set_individual(temp_individual, i);
+	}
+	
+	population_.add_fittest_offspring();
+	REQUIRE(population_.get_individuals()[5].get_genes() == population_.get_individuals()[4].get_genes());
 }
