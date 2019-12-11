@@ -261,11 +261,11 @@ void ofApp::setup(){
 	std::vector<double> best_genes = gene_data_writer::get_best_individual_genes(data_file);
 
 	for (int gene_num = 0; gene_num < best_genes.size(); gene_num++) {
-		std::cout << best_genes[gene_num] << " ";
 		best_ai_.set_gene(best_genes[gene_num], gene_num);
 	}
 	
 	individuals_.initialize_population(5);
+	// individuals_.set_individual(best_ai_, 0);
 
 	current_state_ = MENU;
 	ofSetWindowTitle("Dino");
