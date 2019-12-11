@@ -57,5 +57,30 @@
 	- Made a menu to choose between playing against the AI and training the AI
 	- Have yet to isolate fittest for the playing against AI option
 
- - **12/6/19** Made obstacle generation fair for the player, tweaked the optimization function
+ - **12/6/19** Implemented a menu for the game that allows for the player to choose between training or playing against AI
+	- Have yet to make the Player vs. AI option work against a trained AI
+	- Changed visualization to include all dino's in the population rather than just the fittest
+
+ - **12/7/19** Added sound as an external library
+	- Cleaned code in ofApp by breaking up the draw function into little pieces
+	- Added a threshold for the dino's decisin to jump in order to limit the problem of unnecessary jumping
+
+ - **12/8/19** Tweaked fitness formula to use successful jumps instead of the score
+	- The fitness formula penalizes unnecessary jumps and also still incorporates the score as a factor
+	- Included a write to CSV method to save data from previous training sessions
+	- Created a way to recover the best model from before
+	- Added display functionality for the genetic algorithm info (generation, genes)
+
+ - **12/9/19** Implemented data visualization library (ofxGraph) to show fitness score
+	- Started testing the genetics and output methods
+
+ - **12/10/19** Cleaned and refactored code to make it more efficient and readable
+	- Commented through all code explaining confusing areas
+	- Continued unit testing functionality
+
+ - **12/11/19** Finished testing all functionality in the program
+	- Fixed problem with save prompt for graph always popping up
+
+
+
 

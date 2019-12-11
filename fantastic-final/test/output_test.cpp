@@ -1,5 +1,5 @@
 #include "catch.hpp"
-#include "../output/gene_data_writer.h"
+#include "../src/output/gene_data_writer.h"
 
 TEST_CASE("Test Get Best Individual Genes") {
 	std::string file_name = "data.csv";

@@ -1,6 +1,6 @@
 #include "catch.hpp"
-#include "../genetics/individual.h"
-#include "../game/obstacle.h"
+#include "../src/genetics/individual.h"
+#include "../src/game/obstacle.h"
 
 TEST_CASE("Test Score Altering Methods") {
 	individual individual_;
