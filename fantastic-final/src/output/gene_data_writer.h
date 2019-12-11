@@ -5,6 +5,7 @@
 #include <string>
 #include "../genetics/individual.h"
 
+// Index at which the fitness score appears in the CSV file
 constexpr int FITNESS_INDEX = 2;
 
 class gene_data_writer

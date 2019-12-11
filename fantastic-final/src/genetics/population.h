@@ -25,7 +25,6 @@ class population
 		std::vector<individual> get_individuals();
 		bool are_all_dead();
 
-		// TODO seems to have a problem with selection for some reason? Not replicating fittest offspring
 		void selection();
 		void crossover();
 		void mutation();

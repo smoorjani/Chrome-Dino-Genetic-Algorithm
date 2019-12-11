@@ -1,5 +1,6 @@
 #include "gene_data_writer.h"
 
+// Writes generation and individual data to a csv file
 void gene_data_writer::save_data_to_csv(int generation, int individual_number, double fitness_score, std::vector<double> genes) {
 	std::ofstream csv_file;
 	csv_file.open("data.csv", std::ofstream::app);
@@ -13,14 +14,19 @@ void gene_data_writer::save_data_to_csv(int generation, int individual_number, d
 	csv_file.close();
 }
 
+// Finds the individual with the highest fitness score in a given CSV file
+// Returns that individual's genes
 std::vector<double> gene_data_writer::get_best_individual_genes(std::string filename) {
+	std::vector<double> best_genes = { 0,0,0,0 };
+	if (filename.find(".csv") == string::npos) {
+		return best_genes;
+	}
+
 	std::ifstream csv_file;
 	csv_file.open(filename);
 
 	double current_fitness_score;
 	double max_fitness_score = 0;
-
-	std::vector<double> best_genes = {0,0,0,0};
 
 	std::string temp_line;
 	std::vector<double> temp_double_vector = {0,0,0,0,0,0,0};
@@ -44,6 +50,7 @@ std::vector<double> gene_data_writer::get_best_individual_genes(std::string file
 	return best_genes;
 }
 
+// Converts string of doubles to a vector of doubles with a ',' delimiter
 std::vector<double> gene_data_writer::string_to_vector(std::string line)
 {
 	vector<double> double_vector;

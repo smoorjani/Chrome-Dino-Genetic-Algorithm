@@ -209,7 +209,6 @@
     <ClInclude Include="src\game\obstacle.h" />
     <ClInclude Include="src\genetics\individual.h" />
     <ClInclude Include="src\genetics\population.h" />
-    <ClInclude Include="src\matplotlibcpp.h" />
     <ClInclude Include="src\output\gene_data_writer.h" />
     <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGraph\src\ofxGraph.h" />
     <ClInclude Include="..\..\..\..\..\Downloads\of_v0.10.1_vs2017_release\addons\ofxGui\src\ofxBaseGui.h" />
